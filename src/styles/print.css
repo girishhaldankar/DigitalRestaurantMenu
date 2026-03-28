@@ -1,0 +1,69 @@
+/* Preview wrapper */
+.preview-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+/* Actual A4 Landscape page */
+.pdf-menu-container {
+  width: 297mm;
+  min-height: 210mm;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+}
+
+/* Mobile scaling */
+@media (max-width: 768px) {
+
+  .pdf-menu-container {
+    transform: scale(0.5);
+    transform-origin: top center;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .pdf-menu-container {
+    transform: scale(0.4);
+  }
+
+}
+
+/* PRINT SETTINGS */
+@media print {
+
+  body {
+    margin: 0;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .pdf-menu-container,
+  .pdf-menu-container * {
+    visibility: visible;
+  }
+
+  .pdf-menu-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 297mm;
+    min-height: 210mm;
+    transform: scale(1);
+    box-shadow: none;
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+}
