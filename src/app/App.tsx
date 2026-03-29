@@ -7,7 +7,6 @@ import { MenuItemCard } from "./components/MenuItemCard";
 import { CartButton } from "./components/CartButton";
 import { CheckoutSheet } from "./components/CheckoutSheet";
 import { menuItems, categories } from "./data/menuData";
-import { motion } from "motion/react";
 
 // ✅ CART TYPE
 interface CartItem {
@@ -19,8 +18,8 @@ interface CartItem {
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedCuisine, setSelectedCuisine] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
   const [vegFilter, setVegFilter] = useState<"all" | "veg" | "nonveg">("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -32,7 +31,7 @@ function App() {
   };
 
   // =========================
-  // ✅ AUTO CUISINE LOGIC
+  // ✅ CUISINE LOGIC
   // =========================
   const getCuisine = (category: string) => {
     if (["Noodles", "Rice", "Starter", "Soup", "Momos"].includes(category))
@@ -50,47 +49,37 @@ function App() {
   // ✅ FILTER
   // =========================
   const filteredItems = useMemo(() => {
-    let items = menuItems;
+    return menuItems.filter((item) => {
+      const matchCategory =
+        selectedCategory === "All" || item.category === selectedCategory;
 
-    if (selectedCategory !== "All") {
-      items = items.filter((item) => item.category === selectedCategory);
-    }
+      const matchCuisine =
+        selectedCuisine === "All" ||
+        getCuisine(item.category) === selectedCuisine;
 
-    if (selectedCuisine !== "All") {
-      items = items.filter(
-        (item) => getCuisine(item.category) === selectedCuisine
-      );
-    }
+      const matchVeg =
+        vegFilter === "all" ||
+        (vegFilter === "veg" && item.isVeg) ||
+        (vegFilter === "nonveg" && !item.isVeg);
 
-    if (vegFilter === "veg") {
-      items = items.filter((item) => item.isVeg);
-    } else if (vegFilter === "nonveg") {
-      items = items.filter((item) => !item.isVeg);
-    }
+      const matchSearch =
+        !searchQuery ||
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.category.toLowerCase().includes(searchQuery.toLowerCase());
 
-    if (searchQuery.trim()) {
-      items = items.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.category.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    return items;
-  }, [selectedCategory, selectedCuisine, searchQuery, vegFilter]);
+      return matchCategory && matchCuisine && matchVeg && matchSearch;
+    });
+  }, [selectedCategory, selectedCuisine, vegFilter, searchQuery]);
 
   // =========================
-  // ✅ PRICE HELPER
+  // ✅ CART LOGIC (same as yours)
   // =========================
   const getPrice = (item: any, size: "half" | "full") => {
     if (size === "half") return item.priceHalf ?? item.price ?? 0;
     return item.priceFull ?? item.price ?? 0;
   };
 
-  // =========================
-  // ✅ CART ITEMS
-  // =========================
   const cartItems = useMemo(() => {
     return cart.map((cartItem) => ({
       item: menuItems.find((i) => i.id === cartItem.id)!,
@@ -99,9 +88,6 @@ function App() {
     }));
   }, [cart]);
 
-  // =========================
-  // ✅ TOTAL
-  // =========================
   const cartTotal = useMemo(() => {
     return cartItems.reduce(
       (sum, { item, quantity, size }) =>
@@ -114,9 +100,6 @@ function App() {
     return cart.reduce((sum, item) => sum + item.quantity, 0);
   }, [cart]);
 
-  // =========================
-  // ✅ ADD
-  // =========================
   const addToCart = (id: string, size: "half" | "full") => {
     setCart((prev) => {
       const existing = prev.find(
@@ -135,9 +118,6 @@ function App() {
     });
   };
 
-  // =========================
-  // ✅ REMOVE
-  // =========================
   const removeFromCart = (id: string, size: "half" | "full") => {
     setCart((prev) =>
       prev
@@ -150,16 +130,14 @@ function App() {
     );
   };
 
-  const clearCart = () => {
-    setCart([]);
-  };
+  const clearCart = () => setCart([]);
 
   // =========================
   // UI
   // =========================
   return (
     <div className="min-h-screen relative" style={{ fontFamily: "Poppins, sans-serif" }}>
-      <div className="min-h-screen relative overflow-x-hidden selection:bg-teal-200">
+      <div className="min-h-screen relative overflow-x-hidden">
 
         {/* Background */}
         <div className="fixed inset-0 z-0">
@@ -172,47 +150,39 @@ function App() {
 
         {/* Main */}
         <div className="relative z-10 max-w-7xl mx-auto min-h-screen flex flex-col pt-6 px-4">
-          <div className="bg-white/5 backdrop-blur-[24px] border border-white/10 rounded-[3rem] shadow-2xl flex-1 flex flex-col overflow-hidden mb-8">
+          <div className="bg-white/15 backdrop-blur-[24px] border border-white/10 rounded-[3rem] shadow-2xl flex-1 flex flex-col overflow-hidden mb-8">
 
             <Header onExploreClick={scrollToMenu} />
 
             <div className="flex-1 overflow-y-auto custom-scrollbar">
               <div className="max-w-7xl mx-auto px-6 py-8">
 
+                {/* Search */}
                 <div ref={menuRef}>
                   <SearchBar value={searchQuery} onChange={setSearchQuery} />
                 </div>
 
-                <VegFilter filter={vegFilter} onFilterChange={setVegFilter} />
+                {/* ✅ VEG FILTER (NO SCROLL) */}
+                <VegFilter
+                  filter={vegFilter}
+                  onFilterChange={setVegFilter}
+                />
 
-                {/* ✅ FIXED: SAME UI AS CATEGORY */}
-                <div className="mb-6">
-                  <div className="flex gap-4 flex-wrap justify-center">
-                    {cuisines.map((c) => (
-                      <motion.button
-                        key={c}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setSelectedCuisine(c)}
-                        className={`px-6 py-2.5 md:px-8 md:py-3 rounded-lg font-black text-[10px] md:text-xs uppercase tracking-[0.1em] whitespace-nowrap transition-all duration-500 border backdrop-blur-2xl shadow-xl ${
-                          selectedCuisine === c
-                            ? "bg-teal-600 text-white border-teal-400 shadow-teal-500/20"
-                            : "bg-white/5 text-gray-300 border-white/5 hover:bg-white/10 hover:text-white"
-                        }`}
-                      >
-                        {c}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
+                {/* ✅ CUISINE (SCROLLABLE) */}
+                <CategoryTabs
+                  categories={cuisines}
+                  selectedCategory={selectedCuisine}
+                  onSelectCategory={setSelectedCuisine}
+                />
 
-                {/* CATEGORY */}
+                {/* ✅ CATEGORY (SCROLLABLE) */}
                 <CategoryTabs
                   categories={categories}
                   selectedCategory={selectedCategory}
                   onSelectCategory={setSelectedCategory}
                 />
 
+                {/* MENU */}
                 <main className="pb-32">
                   {filteredItems.length === 0 ? (
                     <div className="text-center py-20">
@@ -237,19 +207,19 @@ function App() {
                     </div>
                   )}
                 </main>
+
               </div>
             </div>
           </div>
         </div>
 
-        {/* Cart Button */}
+        {/* Cart */}
         <CartButton
           itemCount={totalItemsInCart}
           total={cartTotal}
           onClick={() => setIsCartOpen(true)}
         />
 
-        {/* Checkout */}
         <CheckoutSheet
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}

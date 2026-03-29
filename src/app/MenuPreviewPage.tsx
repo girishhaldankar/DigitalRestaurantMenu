@@ -8,10 +8,10 @@ export default function MenuPreviewPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
+    <div className="min-h-screen bg-gray-100 flex flex-col p-4">
 
       {/* Buttons */}
-      <div className="flex gap-4 mb-6 print:hidden">
+      <div className="flex gap-4 mb-6 print:hidden justify-center">
         <button
           onClick={handlePrint}
           className="flex items-center gap-2 bg-black text-white px-6 py-2 rounded"
@@ -28,9 +28,21 @@ export default function MenuPreviewPage() {
         </button>
       </div>
 
-      {/* Preview wrapper */}
-      <div className="preview-wrapper">
-        <div className="pdf-menu-container">
+      {/* ✅ FIXED PREVIEW WRAPPER */}
+      <div
+        className="preview-wrapper"
+        style={{
+          flex: 1,
+          overflow: "auto",     // allow scroll
+          display: "block",     // 🔥 important (no flex center)
+        }}
+      >
+        <div
+          className="pdf-menu-container"
+          style={{
+            width: "max-content",  // 🔥 prevents cutting
+          }}
+        >
           <MenuPDF />
         </div>
       </div>

@@ -16,13 +16,10 @@ export function MenuItemCard({
   onAdd,
   onRemove,
 }: MenuItemCardProps) {
-
-  // ✅ toggle
   const [size, setSize] = useState<"half" | "full">(
     item.priceHalf ? "half" : "full"
   );
 
-  // ✅ SAFE PRICE FIX (important)
   const price =
     size === "half"
       ? item.priceHalf ?? item.priceFull ?? item.price ?? 0
@@ -33,81 +30,70 @@ export function MenuItemCard({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      className="group relative flex flex-row gap-4 md:gap-6 p-3 md:p-5 bg-white/[0.04] backdrop-blur-[32px] rounded-lg border border-white/10 shadow-2xl hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 overflow-hidden"
+      className="group relative flex gap-3 md:gap-6 p-3 md:p-5 bg-white/[0.04] backdrop-blur-[32px] rounded-lg border border-white/10 shadow-2xl hover:bg-white/[0.08] transition-all duration-500"
     >
-
       {/* IMAGE */}
-      <div className="relative w-28 md:w-48 h-28 md:h-40 shrink-0 rounded-lg overflow-hidden shadow-2xl">
+      <div className="relative w-24 md:w-48 h-24 md:h-40 shrink-0 rounded-lg overflow-hidden">
         <img
-  src={item.image}
-  alt={item.name}
-  onError={(e) => {
-    const img = e.currentTarget;
-
-    // prevent infinite loop
-    if (!img.src.includes("fallback")) {
-      img.src = "/fallback.jpg";
-    }
-  }}
-  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
-/>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-70" />
+          src={item.image}
+          alt={item.name}
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (!img.src.includes("fallback")) img.src = "/fallback.jpg";
+          }}
+          className="w-full h-full object-cover"
+        />
 
         {/* Veg / Non-Veg */}
-        <motion.div className="absolute top-2 left-2 md:top-3 md:left-3 z-10">
-          <div className={`w-5 h-5 md:w-6 md:h-6 rounded-lg border-2 flex items-center justify-center p-1 ${
-            item.isVeg ? "bg-green-500/20 border-green-500/40" : "bg-red-500/20 border-red-500/40"
-          }`}>
-            <div className={`w-full h-full rounded-full ${
-              item.isVeg ? "bg-green-500" : "bg-red-500"
-            }`} />
+        <div className="absolute top-2 left-2">
+          <div
+            className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+              item.isVeg
+                ? "bg-green-500/20 border-green-500"
+                : "bg-red-500/20 border-red-500"
+            }`}
+          >
+            <div
+              className={`w-2.5 h-2.5 rounded-full ${
+                item.isVeg ? "bg-green-500" : "bg-red-500"
+              }`}
+            />
           </div>
-        </motion.div>
+        </div>
 
         {/* Rating */}
-        <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3 bg-black/40 backdrop-blur-xl rounded-lg px-2 py-1 flex items-center gap-1">
+        <div className="absolute bottom-2 right-2 bg-black/40 rounded px-2 py-0.5 flex items-center gap-1">
           <Star className="w-3 h-3 text-teal-400 fill-teal-400" />
           <span className="text-white text-[10px] font-bold">4.8</span>
         </div>
-
-        {/* Offer */}
-        {item.offerTag && (
-          <motion.div className="absolute top-2 right-2 md:top-3 md:right-3">
-            <div className="bg-teal-600 text-white text-[9px] px-2 py-1 rounded-full flex items-center gap-1">
-              <Tag className="w-2 h-2" />
-              {item.offerTag}
-            </div>
-          </motion.div>
-        )}
       </div>
 
       {/* CONTENT */}
-      <div className="flex-1 flex flex-col justify-between">
-
+      <div className="flex-1 flex flex-col justify-between min-w-0">
+        {/* TEXT */}
         <div>
-          <h3 className="font-bold text-white text-base md:text-xl">
+          <h3 className="font-bold text-white text-sm md:text-lg leading-tight">
             {item.name}
           </h3>
-          <p className="text-xs text-gray-300">
+          <p className="text-[11px] md:text-xs text-gray-300 line-clamp-2">
             {item.description}
           </p>
         </div>
 
-        <div className="flex items-center justify-between mt-auto">
-
-          {/* PRICE + TOGGLE */}
-          <div>
-            <span className="text-base md:text-2xl font-black text-white">
+        {/* BOTTOM */}
+        <div className="flex items-end justify-between mt-2 gap-2">
+          {/* LEFT: PRICE + TOGGLE */}
+          <div className="flex flex-col">
+            <span className="text-base md:text-xl font-black text-white">
               ₹{price}
             </span>
 
             {/* TOGGLE */}
             {item.priceHalf && item.priceFull && (
-              <div className="flex gap-2 mt-1">
+              <div className="flex gap-1 mt-1">
                 <button
                   onClick={() => setSize("half")}
-                  className={`text-[10px] px-2 py-1 rounded ${
+                  className={`text-[9px] px-2 py-0.5 rounded ${
                     size === "half"
                       ? "bg-teal-600 text-white"
                       : "bg-white/10 text-gray-300"
@@ -118,7 +104,7 @@ export function MenuItemCard({
 
                 <button
                   onClick={() => setSize("full")}
-                  className={`text-[10px] px-2 py-1 rounded ${
+                  className={`text-[9px] px-2 py-0.5 rounded ${
                     size === "full"
                       ? "bg-teal-600 text-white"
                       : "bg-white/10 text-gray-300"
@@ -130,43 +116,37 @@ export function MenuItemCard({
             )}
           </div>
 
-          {/* BUTTON */}
-          {quantity === 0 ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => onAdd(item.id, size)}
-              className="whitespace-nowrap px-4 py-1.5 md:px-8 md:py-3.5 bg-teal-500 text-white rounded-lg font-black text-[9px] md:text-xs uppercase tracking-[0.1em] md:tracking-[0.2em] shadow-xl"
-            >
-              ORDER
-            </motion.button>
-          ) : (
-            <motion.div className="flex items-center gap-2 bg-white/5 backdrop-blur-2xl text-white rounded-lg px-2 py-1 border border-white/20 shadow-xl">
-
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => onRemove(item.id, size)}
-                className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md bg-white/5 border border-white/5"
-              >
-                <Minus className="w-3 h-3 md:w-4 md:h-4" />
-              </motion.button>
-
-              <span className="font-black text-[13px] md:text-lg text-teal-400">
-                {quantity}
-              </span>
-
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+          {/* RIGHT: BUTTON */}
+          <div className="shrink-0">
+            {quantity === 0 ? (
+              <button
                 onClick={() => onAdd(item.id, size)}
-                className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md bg-white/5 border border-white/5"
+                className="px-3 py-1.5 md:px-6 md:py-2 bg-teal-500 text-white rounded-lg font-bold text-[10px] md:text-xs whitespace-nowrap"
               >
-                <Plus className="w-3 h-3 md:w-4 md:h-4" />
-              </motion.button>
+                ORDER
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 bg-white/5 text-white rounded-lg px-2 py-1 border border-white/20">
+                <button
+                  onClick={() => onRemove(item.id, size)}
+                  className="w-6 h-6 flex items-center justify-center"
+                >
+                  <Minus className="w-3 h-3" />
+                </button>
 
-            </motion.div>
-          )}
+                <span className="font-bold text-sm text-teal-400">
+                  {quantity}
+                </span>
+
+                <button
+                  onClick={() => onAdd(item.id, size)}
+                  className="w-6 h-6 flex items-center justify-center"
+                >
+                  <Plus className="w-3 h-3" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </motion.div>

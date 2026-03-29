@@ -1,38 +1,68 @@
-/* Preview wrapper */
+/* ================= PREVIEW WRAPPER ================= */
 .preview-wrapper {
   width: 100%;
   display: flex;
-  justify-content: center;
+
+  justify-content: flex-start;   /* ✅ start from left (fix cut issue) */
   overflow-x: auto;
+  overflow-y: hidden;
+
+  padding-bottom: 20px;          /* little space for scroll */
 }
 
-/* Actual A4 Landscape page */
+/* ================= PDF PAGE ================= */
 .pdf-menu-container {
   width: 297mm;
   min-height: 210mm;
+
   background: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
+
+  flex-shrink: 0;                /* ✅ prevent shrinking */
+  transform-origin: top left;    /* ✅ important for scaling */
 }
 
-/* Mobile scaling */
-@media (max-width: 768px) {
+/* ================= MOBILE SCALING ================= */
+@media (max-width: 1024px) {
+  .pdf-menu-container {
+    transform: scale(0.7);
+  }
+}
 
+@media (max-width: 768px) {
   .pdf-menu-container {
     transform: scale(0.5);
-    transform-origin: top center;
   }
-
 }
 
 @media (max-width: 480px) {
-
   .pdf-menu-container {
     transform: scale(0.4);
   }
-
 }
 
-/* PRINT SETTINGS */
+/* ================= DESKTOP CENTER (OPTIONAL) ================= */
+@media (min-width: 1024px) {
+  .preview-wrapper {
+    justify-content: center;   /* center only on big screens */
+  }
+}
+
+/* ================= SCROLLBAR (OPTIONAL NICE UI) ================= */
+.preview-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.preview-wrapper::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 10px;
+}
+
+.preview-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ================= PRINT SETTINGS ================= */
 @media print {
 
   body {
@@ -52,9 +82,11 @@
     position: absolute;
     left: 0;
     top: 0;
+
     width: 297mm;
     min-height: 210mm;
-    transform: scale(1);
+
+    transform: scale(1);         /* ✅ reset scaling for print */
     box-shadow: none;
 
     -webkit-print-color-adjust: exact;
@@ -65,5 +97,4 @@
     size: A4 landscape;
     margin: 0;
   }
-
 }

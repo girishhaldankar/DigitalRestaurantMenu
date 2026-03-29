@@ -2,8 +2,15 @@ import { motion } from "motion/react";
 import { useRef, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+interface TabOption {
+  label: string;
+  value: string;
+  icon?: any;
+  color?: string;
+}
+
 interface CategoryTabsProps {
-  categories: string[];
+  categories: string[] | TabOption[];
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
 }
@@ -17,6 +24,13 @@ export function CategoryTabs({
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+
+  const isObject = typeof categories[0] === "object";
+
+  const getValue = (item: any) => (isObject ? item.value : item);
+  const getLabel = (item: any) => (isObject ? item.label : item);
+  const getIcon = (item: any) => (isObject ? item.icon : null);
+  const getColor = (item: any) => (isObject ? item.color : null);
 
   const checkScroll = () => {
     if (scrollRef.current) {
@@ -33,34 +47,29 @@ export function CategoryTabs({
   }, []);
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 200;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+    scrollRef.current?.scrollBy({
+      left: direction === "left" ? -200 : 200,
+      behavior: "smooth",
+    });
   };
 
-  const scrollToCenter = (category: string) => {
-    const button = buttonRefs.current[category];
+  const scrollToCenter = (value: string) => {
+    const button = buttonRefs.current[value];
     const container = scrollRef.current;
 
     if (button && container) {
-      const buttonLeft = button.offsetLeft;
-      const buttonWidth = button.offsetWidth;
-      const containerWidth = container.offsetWidth;
-      const scrollTo = buttonLeft - (containerWidth / 2) + (buttonWidth / 2);
-      container.scrollTo({
-        left: scrollTo,
-        behavior: "smooth",
-      });
+      const scrollTo =
+        button.offsetLeft -
+        container.offsetWidth / 2 +
+        button.offsetWidth / 2;
+
+      container.scrollTo({ left: scrollTo, behavior: "smooth" });
     }
   };
 
-  const handleCategoryClick = (category: string) => {
-    onSelectCategory(category);
-    scrollToCenter(category);
+  const handleClick = (value: string) => {
+    onSelectCategory(value);
+    scrollToCenter(value);
   };
 
   return (
@@ -70,43 +79,64 @@ export function CategoryTabs({
         {showLeftArrow && (
           <button
             onClick={() => scroll("left")}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 bg-white/5 backdrop-blur-xl shadow-2xl rounded-full p-2 hover:bg-white/10 transition-all hover:scale-110 border border-white/10"
+           className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 
+bg-black/30 backdrop-blur-sm 
+rounded-full p-1.5 
+border border-white/10 
+hover:bg-black/40 transition"
           >
             <ChevronLeft className="w-5 h-5 text-gray-300" />
           </button>
         )}
 
-        {/* Categories */}
-       <div
-  ref={scrollRef}
-  onScroll={checkScroll}
-  className="overflow-x-auto no-scrollbar scroll-smooth py-2"
->
-  <div className="flex gap-4 w-max mx-auto px-4">
-    {categories.map((category) => (
-      <motion.button
-        key={category}
-        ref={(el) => (buttonRefs.current[category] = el)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => handleCategoryClick(category)}
-        className={`px-6 py-2.5 md:px-8 md:py-3.5 rounded-lg font-black text-[10px] md:text-xs uppercase tracking-[0.1em] md:tracking-[0.2em] whitespace-nowrap transition-all duration-500 border backdrop-blur-2xl shadow-xl ${
-          selectedCategory === category
-            ? "bg-teal-600 text-white border-teal-400 shadow-teal-500/20"
-            : "bg-white/5 text-gray-300 border-white/5 hover:bg-white/10 hover:text-white"
-        }`}
-      >
-        {category}
-      </motion.button>
-    ))}
-  </div>
-</div>
+        {/* Tabs */}
+        <div
+          ref={scrollRef}
+          onScroll={checkScroll}
+          className="overflow-x-auto no-scrollbar scroll-smooth py-2"
+        >
+          <div className="flex gap-4 w-max mx-auto px-4">
+            {categories.map((item: any) => {
+              const value = getValue(item);
+              const label = getLabel(item);
+              const Icon = getIcon(item);
+              const color = getColor(item);
+
+              return (
+                <motion.button
+                  key={value}
+                  ref={(el) => (buttonRefs.current[value] = el)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleClick(value)}
+                  className={`px-6 py-2.5 md:px-8 md:py-3.5 rounded-lg font-black text-[10px] md:text-xs uppercase tracking-[0.1em] md:tracking-[0.2em] whitespace-nowrap transition-all duration-500 border backdrop-blur-2xl shadow-xl flex items-center gap-2 ${
+                    selectedCategory === value
+                      ? "bg-teal-600 text-white border-teal-400"
+                      : "bg-white/5 text-gray-300 border-white/5 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  {Icon && (
+                    <Icon
+                      className="w-4 h-4"
+                      style={{ color: color || "white" }}
+                    />
+                  )}
+                  {label}
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Right Arrow */}
         {showRightArrow && (
           <button
             onClick={() => scroll("right")}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 bg-white/5 backdrop-blur-xl shadow-2xl rounded-full p-2 hover:bg-white/10 transition-all hover:scale-110 border border-white/10"
+            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 
+bg-black/30 backdrop-blur-sm 
+rounded-full p-1.5 
+border border-white/10 
+hover:bg-black/40 transition"
           >
             <ChevronRight className="w-5 h-5 text-gray-300" />
           </button>

@@ -212,43 +212,68 @@ const Page = ({ columns, pageIndex }: any) => {
         }}
       >
         {/* HEADER */}
-        <div style={{ marginBottom: "6mm" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div
-              style={{
-                background: "#14b8a6",
-                padding: "8px",
-                borderRadius: "10px",
-              }}
-            >
-              <ChefHat color="white" size={20} />
-            </div>
+      {/* TEXT BLOCK */}
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    lineHeight: 1,
+    alignItems: "center",   // ✅ THIS FIXES CENTERING
+  }}
+>
+  {/* CIBO */}
+  <h1
+    style={{
+      fontSize: pageIndex === 0 ? "18pt" : "14pt",
+      fontWeight: 900,
+      letterSpacing: "3px",
+      margin: 0,
+      textAlign: "center",  // ✅ optional (extra safe)
+      background: "linear-gradient(90deg, #4fd1c5, #2c7a7b)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    }}
+  >
+    CIBO
+  </h1>
 
-            <h1
-              style={{
-                fontSize: pageIndex === 0 ? "20pt" : "14pt",
-                fontWeight: 900,
-                color: "#fff",
-                margin: 0,
-              }}
-            >
-              My <span style={{ color: "#2dd4bf" }}>Kitchen</span>
-            </h1>
-          </div>
+  {/* Kitchen */}
+  <h2
+    style={{
+      fontSize: pageIndex === 0 ? "12pt" : "10pt",
+      margin: "-18px 0 0 0",
+      fontFamily: "'Allura', cursive",
+      color: "#ffffff",
+      textAlign: "center",   // ✅ centers under CIBO
+    }}
+  >
+    Kitchen
+  </h2>
 
-          {pageIndex === 0 && (
-            <p
-              style={{
-                fontSize: "8pt",
-                color: "#9ca3af",
-                marginTop: "4px",
-                letterSpacing: "2px",
-              }}
-            >
-              PREMIUM DINING EXPERIENCE
-            </p>
-          )}
-        </div>
+  {/* TAGLINE */}
+  {pageIndex === 0 && (
+  <p
+    style={{
+      marginTop: "4px",
+      padding: "4px 8px 2px 8px",
+      fontSize: "7pt",
+      letterSpacing: "2px",
+      textTransform: "uppercase",
+      color: "#e5e7eb",
+
+      background: "rgba(20, 184, 166, 0.4)",   // teal glass effect
+      backdropFilter: "blur(6px)",              // glass blur
+      borderRadius: "999px",                    // pill shape
+
+      boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+      textAlign: "center",
+      display: "inline-block",
+    }}
+  >
+    Yummy Food
+  </p>
+)}
+</div>
 
         {/* GRID */}
         <div

@@ -17,10 +17,10 @@ export function Header({ onExploreClick }: HeaderProps) {
     <header className="relative pt-12 pb-8">
       <div className="max-w-6xl mx-auto px-6">
         {/* Logo Section */}
-      <motion.div
+     <motion.div
   initial={{ opacity: 0, x: -20 }}
   animate={{ opacity: 1, x: 0 }}
-  className="flex flex-col md:flex-row items-center md:items-start gap-4 mb-2 group hover:scale-105 transition-transform duration-300"
+  className="flex flex-col md:flex-row items-center md:items-start gap-2  mb-2 group hover:scale-105 transition-transform duration-300"
 >
   {/* Logo Image */}
   <img
@@ -29,37 +29,39 @@ export function Header({ onExploreClick }: HeaderProps) {
     className="w-28 h-28 sm:w-32 sm:h-32 md:w-24 md:h-24 object-contain drop-shadow-xl"
   />
 
-  {/* Logo Text */}
-  <div className="flex flex-col items-center relative">
-    {/* CIBO */}
-    <h1
-      className="text-4xl sm:text-5xl md:text-5xl font-extrabold tracking-[0.15em] drop-shadow-md"
-      style={{
-        background: "linear-gradient(90deg, #4fd1c5, #2c7a7b)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-      }}
-    >
-      CIBO
-    </h1>
+  <div className="flex flex-col items-center relative leading-none">
+  {/* CIBO */}
+  <h1
+    className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-[0.18em] drop-shadow-md"
+    style={{
+      background: "linear-gradient(90deg, #4fd1c5, #2c7a7b)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    }}
+  >
+    CIBO
+  </h1>
 
-    {/* Kitchen */}
-    <h2
-      className="text-2xl sm:text-3xl md:text-3xl text-teal-200 -mt-5 text-center drop-shadow-[2px_2px_4px_rgba(255,255,255,0.5)]"
-      style={{ fontFamily: "'Great Vibes', cursive", fontWeight: 400 }}
-    >
-      Kitchen
-    </h2>
+  {/* Kitchen */}
+  <h2
+    className="text-3xl text-shadow-2xs text-shadow-gray-400 sm:text-4xl md:text-5xl text-black -mt-6 text-center z-50"
+    style={{
+      fontFamily: "'Allura', cursive",
+      
+    }}
+  >
+    Kitchen
+  </h2>
 
-    {/* Tagline */}
-    <p className="text-[10px] sm:text-xs md:text-xs text-gray-200 mt-2 px-2 py-0.5 bg-teal-700/30 backdrop-blur-sm rounded-full tracking-widest uppercase shadow-md w-max">
-      Yummy Food
-    </p>
-  </div>
+  {/* Tagline */}
+  <p className="tracking-[0.28em] text-[11px] sm:text-xs text-gray-100 mt-0 px-3 py-1 bg-teal-700/40 backdrop-blur-md rounded-full tracking-[0.2em] uppercase shadow-sm">
+    Yummy Food
+  </p>
+</div>
 </motion.div>
 
         {/* Hero Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
+        <div className="mt-6 sm:mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
           {/* Hero Text */}
           <div className="max-w-lg text-center md:text-left mx-auto md:mx-0">
             <motion.h2
@@ -85,7 +87,7 @@ export function Header({ onExploreClick }: HeaderProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onExploreClick}
-                className="mt-6 px-8 py-4 md:px-10 md:py-5 bg-teal-600/30 text-white rounded-lg font-black shadow-xl shadow-teal-500/30 hover:bg-teal-700 transition-all uppercase tracking-widest text-xs"
+                className="mt-6 px-8 py-4 md:px-10 md:py-5 bg-teal-600/30 text-white rounded-lg font-black  hover:bg-teal-700 transition-all uppercase tracking-widest text-xs"
               >
                 Explore Menu
               </motion.button>
