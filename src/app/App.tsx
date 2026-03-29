@@ -1,4 +1,6 @@
 import { useState, useMemo, useRef } from "react";
+import { Link } from "react-router-dom";
+
 import { Header } from "./components/Header";
 import { SearchBar } from "./components/SearchBar";
 import { VegFilter } from "./components/VegFilter";
@@ -31,7 +33,7 @@ function App() {
   };
 
   // =========================
-  // ✅ CUISINE LOGIC
+  // CUISINE LOGIC
   // =========================
   const getCuisine = (category: string) => {
     if (["Noodles", "Rice", "Starter", "Soup", "Momos"].includes(category))
@@ -46,7 +48,7 @@ function App() {
   const cuisines = ["All", "Indian", "Chinese", "Continental"];
 
   // =========================
-  // ✅ FILTER
+  // FILTER
   // =========================
   const filteredItems = useMemo(() => {
     return menuItems.filter((item) => {
@@ -73,7 +75,7 @@ function App() {
   }, [selectedCategory, selectedCuisine, vegFilter, searchQuery]);
 
   // =========================
-  // ✅ CART LOGIC (same as yours)
+  // CART LOGIC
   // =========================
   const getPrice = (item: any, size: "half" | "full") => {
     if (size === "half") return item.priceHalf ?? item.price ?? 0;
@@ -136,8 +138,11 @@ function App() {
   // UI
   // =========================
   return (
-    <div className="min-h-screen relative" style={{ fontFamily: "Poppins, sans-serif" }}>
-      <div className="min-h-screen relative overflow-x-hidden">
+    <div
+      className="min-h-screen relative"
+      style={{ fontFamily: "Poppins, sans-serif" }}
+    >
+      <div className="min-h-screen relative overflow-x-hidden flex flex-col">
 
         {/* Background */}
         <div className="fixed inset-0 z-0">
@@ -149,8 +154,8 @@ function App() {
         </div>
 
         {/* Main */}
-        <div className="relative z-10 max-w-7xl mx-auto min-h-screen flex flex-col pt-6 px-4">
-          <div className="bg-white/15 backdrop-blur-[24px] border border-white/10 rounded-[3rem] shadow-2xl flex-1 flex flex-col overflow-hidden mb-8">
+        <div className="relative z-10 max-w-7xl mx-auto w-full flex-1 flex flex-col pt-6 px-4">
+          <div className="bg-white/15 backdrop-blur-[24px] border border-white/10 rounded-[3rem] shadow-2xl flex-1 flex flex-col overflow-hidden mb-6">
 
             <Header onExploreClick={scrollToMenu} />
 
@@ -162,20 +167,20 @@ function App() {
                   <SearchBar value={searchQuery} onChange={setSearchQuery} />
                 </div>
 
-                {/* ✅ VEG FILTER (NO SCROLL) */}
+                {/* Veg Filter */}
                 <VegFilter
                   filter={vegFilter}
                   onFilterChange={setVegFilter}
                 />
 
-                {/* ✅ CUISINE (SCROLLABLE) */}
+                {/* Cuisine */}
                 <CategoryTabs
                   categories={cuisines}
                   selectedCategory={selectedCuisine}
                   onSelectCategory={setSelectedCuisine}
                 />
 
-                {/* ✅ CATEGORY (SCROLLABLE) */}
+                {/* Category */}
                 <CategoryTabs
                   categories={categories}
                   selectedCategory={selectedCategory}
@@ -211,6 +216,19 @@ function App() {
               </div>
             </div>
           </div>
+
+          {/* ✅ FOOTER (RAZORPAY REQUIRED) */}
+          <footer className="text-xs text-center text-gray-300 mb-6 space-x-4">
+            <Link to="/privacy-policy" className="hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="hover:text-white">
+              Terms
+            </Link>
+            <Link to="/refund-policy" className="hover:text-white">
+              Refund
+            </Link>
+          </footer>
         </div>
 
         {/* Cart */}
