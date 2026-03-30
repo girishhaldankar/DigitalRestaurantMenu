@@ -1,20 +1,20 @@
-import LemonMojito from "../../assets/foodimages/LemonMojito.jpg";
-import PeachIceTea from "../../assets/foodimages/PeachIceTea.jpg";
+import LemonMojito from "../../assets/lemon-mojito.jpg";
+import PeachIceTea from "../../assets/peach-ice-tea.jpg";
 
-import StrawberryMargarita from "../../assets/foodimages/StrawberryMargarita.jpg";
-import ColdCoffee from "../../assets/foodimages/ColdCoffee.jpg";
+import StrawberryMargarita from "../../assets/strawberry-margarita.jpg";
+import ColdCoffee from "../../assets/cold-coffee.jpg";
 
 import Tea from "../../assets/foodimages/Tea.jpg";
 import Coffee from "../../assets/foodimages/Coffee.jpg";
 import BlackCoffee from "../../assets/foodimages/BlackCoffee.jpg";
-import LemonTea from "../../assets/foodimages/LemonTea.jpg";
+import LemonTea from "../../assets/lemon-tea.jpg";
 
 
 
-import BreadOmeletteGrilled from "../../assets/foodimages/BreadOmeletteGrilled.jpg";
-import BreadOmelettePlain from "../../assets/foodimages/BreadOmelettePlain.jpg";
-import CheeseBreadOmelette from "../../assets/foodimages/CheeseBreadOmelette.jpg";
-import EggBhurjiPav from "../../assets/foodimages/EggBhurjiPav.jpg";
+import BreadOmeletteGrilled from "../../assets/bread-omelette-grilled.jpg";
+import BreadOmelettePlain from "../../assets/bread-omelette-plain.jpg";
+import CheeseBreadOmelette from "../../assets/cheese-bread-omelette.jpg";
+import EggBhurjiPav from "../../assets/egg-bhurji-pav.jpg";
 import GarlicBread from "../../assets/foodimages/GarlicBread.jpg";
 import CheeseGarlicBread from "../../assets/foodimages/CheeseGarlicBread.jpg";
 import FrenchFries from "../../assets/foodimages/FrenchFries.jpg";
@@ -30,36 +30,36 @@ import ClassicMaggi from "../../assets/foodimages/ClassicMaggi.jpg";
 import SoupyMaggi from "../../assets/foodimages/SoupyMaggi.jpg";
 import MasalaMaggi from "../../assets/foodimages/MasalaMaggi.jpg";
 import CheeseMaggi from "../../assets/foodimages/CheeseMaggi.jpg";
-import VegMaggi from "../../assets/foodimages/VegMaggi.jpg";
-import SchezwanMaggi from "../../assets/foodimages/SchezwanMaggi.jpg";
-import PeriPeriMaggi from "../../assets/foodimages/PeriPeriMaggi.jpg";
-import CheeseCornMaggi from "../../assets/foodimages/CheeseCornMaggi.jpg";
+import VegMaggi from "../../assets/veg-maggi.jpg";
+import SchezwanMaggi from "../../assets/schezwan-maggi.jpg";
+import PeriPeriMaggi from "../../assets/peri-peri-maggi.jpg";
+import CheeseCornMaggi from "../../assets/cheese-corn-maggi.jpg";
 
 
 
-import AlooSandwich from "../../assets/foodimages/AlooSandwich.jpg";
-import JamSandwich from "../../assets/foodimages/JamSandwich.jpg";
-import VegCheeseSandwich from "../../assets/foodimages/VegCheeseSandwich.jpg";
-import VegCheeseSchezwanSandwich from "../../assets/foodimages/VegCheeseSchezwanSandwich.jpg";
-import ChocolateSandwich from "../../assets/foodimages/ChocolateSandwich.jpg";
+import AlooSandwich from "../../assets/aloo-sandwich.jpg";
+import JamSandwich from "../../assets/jam-sandwich.jpg";
+import VegCheeseSandwich from "../../assets/veg-cheese-sandwich.jpg";
+import VegCheeseSchezwanSandwich from "../../assets/veg-cheese-schezwan-sandwich.jpg";
+import ChocolateSandwich from "../../assets/chocolate-sandwich.jpg";
 
-import VeggieCheesyBurger from "../../assets/foodimages/VeggieCheesyBurger.jpg";
-import FriedChickenBurger from "../../assets/foodimages/FriedChickenBurger.jpg";
+import VeggieCheesyBurger from "../../assets/veggie-cheesy-burger.jpg";
+import FriedChickenBurger from "../../assets/fried-chicken-burger.jpg";
 
-import VegWrap from "../../assets/foodimages/VegWrap.jpg";
-import PaneerTikkaRoll from "../../assets/foodimages/PaneerTikkaRoll.jpg";
-import ChickenBhunaWrap from "../../assets/foodimages/ChickenBhunaWrap.jpg";
-import ChickenKebabRoll from "../../assets/foodimages/ChickenKebabRoll.jpg";
+import VegWrap from "../../assets/veg-wrap.jpg";
+import PaneerTikkaRoll from "../../assets/paneer-tikka-roll.jpg";
+import ChickenBhunaWrap from "../../assets/chicken-bhuna-wrap.jpg";
+import ChickenKebabRoll from "../../assets/chicken-kebab-roll.jpg";
 
 import PenneAlfredoPasta from "../../assets/foodimages/PenneAlfredoPasta.jpg";
-import ArrabbiataPasta from "../../assets/foodimages/ArrabbiataPasta.jpg";
-import PinkSaucePasta from "../../assets/foodimages/PinkSaucePasta.jpg";
-import ChickenAlfredoPasta from "../../assets/foodimages/ChickenAlfredoPasta.jpg";  
+import ArrabbiataPasta from "../../assets/arrabbiata-pasta.jpg";
+import PinkSaucePasta from "../../assets/pink-sauce-pasta.jpg";
+import ChickenAlfredoPasta from "../../assets/chicken-alfredo-pasta.jpg";  
 
 import VegThaiCurry from "../../assets/foodimages/VegThaiCurry.jpg";
 import ChickenThaiCurry from "../../assets/foodimages/ChickenThaiCurry.jpg";
 
-import PaneerChilly from "../../assets/foodimages/PaneerChilly.jpg";
+import PaneerChilly from "../../assets/paneer-chilly.jpg";
 import VegManchurianDry from "../../assets/foodimages/VegManchurianDry.jpg";
 import ChickenLollipopStarter from "../../assets/foodimages/ChickenLollipopStarter.jpg";
 import ChickenChillyDry from "../../assets/foodimages/ChickenChillyDry.jpg";
