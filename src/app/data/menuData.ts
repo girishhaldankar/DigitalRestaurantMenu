@@ -1,3 +1,102 @@
+import LemonMojito from "../../assets/foodimages/LemonMojito.jpg";
+import PeachIceTea from "../../assets/foodimages/PeachIceTea.jpg";
+
+import StrawberryMargarita from "../../assets/foodimages/StrawberryMargarita.jpg";
+import ColdCoffee from "../../assets/foodimages/ColdCoffee.jpg";
+
+import Tea from "../../assets/foodimages/Tea.jpg";
+import Coffee from "../../assets/foodimages/Coffee.jpg";
+import BlackCoffee from "../../assets/foodimages/BlackCoffee.jpg";
+import LemonTea from "../../assets/foodimages/LemonTea.jpg";
+
+
+
+import BreadOmeletteGrilled from "../../assets/foodimages/BreadOmeletteGrilled.jpg";
+import BreadOmelettePlain from "../../assets/foodimages/BreadOmelettePlain.jpg";
+import CheeseBreadOmelette from "../../assets/foodimages/CheeseBreadOmelette.jpg";
+import EggBhurjiPav from "../../assets/foodimages/EggBhurjiPav.jpg";
+import GarlicBread from "../../assets/foodimages/GarlicBread.jpg";
+import CheeseGarlicBread from "../../assets/foodimages/CheeseGarlicBread.jpg";
+import FrenchFries from "../../assets/foodimages/FrenchFries.jpg";
+import FrenchFriesCheese from "../../assets/foodimages/FrenchFriesCheese.jpg";
+import PeriPeriFries from "../../assets/foodimages/PeriPeriFries.jpg";
+import Nachos from "../../assets/foodimages/Nachos.jpg";
+import PotatoWedges from "../../assets/foodimages/PotatoWedges.jpg";
+import VegAlooTikki from "../../assets/foodimages/VegAlooTikki.jpg";
+import ChickenNuggets from "../../assets/foodimages/ChickenNuggets.jpg";
+import ChickenLollipop from "../../assets/foodimages/ChickenLollipop.jpg";
+
+import ClassicMaggi from "../../assets/foodimages/ClassicMaggi.jpg";
+import SoupyMaggi from "../../assets/foodimages/SoupyMaggi.jpg";
+import MasalaMaggi from "../../assets/foodimages/MasalaMaggi.jpg";
+import CheeseMaggi from "../../assets/foodimages/CheeseMaggi.jpg";
+import VegMaggi from "../../assets/foodimages/VegMaggi.jpg";
+import SchezwanMaggi from "../../assets/foodimages/SchezwanMaggi.jpg";
+import PeriPeriMaggi from "../../assets/foodimages/PeriPeriMaggi.jpg";
+import CheeseCornMaggi from "../../assets/foodimages/CheeseCornMaggi.jpg";
+
+
+
+import AlooSandwich from "../../assets/foodimages/AlooSandwich.jpg";
+import JamSandwich from "../../assets/foodimages/JamSandwich.jpg";
+import VegCheeseSandwich from "../../assets/foodimages/VegCheeseSandwich.jpg";
+import VegCheeseSchezwanSandwich from "../../assets/foodimages/VegCheeseSchezwanSandwich.jpg";
+import ChocolateSandwich from "../../assets/foodimages/ChocolateSandwich.jpg";
+
+import VeggieCheesyBurger from "../../assets/foodimages/VeggieCheesyBurger.jpg";
+import FriedChickenBurger from "../../assets/foodimages/FriedChickenBurger.jpg";
+
+import VegWrap from "../../assets/foodimages/VegWrap.jpg";
+import PaneerTikkaRoll from "../../assets/foodimages/PaneerTikkaRoll.jpg";
+import ChickenBhunaWrap from "../../assets/foodimages/ChickenBhunaWrap.jpg";
+import ChickenKebabRoll from "../../assets/foodimages/ChickenKebabRoll.jpg";
+
+import PenneAlfredoPasta from "../../assets/foodimages/PenneAlfredoPasta.jpg";
+import ArrabbiataPasta from "../../assets/foodimages/ArrabbiataPasta.jpg";
+import PinkSaucePasta from "../../assets/foodimages/PinkSaucePasta.jpg";
+import ChickenAlfredoPasta from "../../assets/foodimages/ChickenAlfredoPasta.jpg";  
+
+import VegThaiCurry from "../../assets/foodimages/VegThaiCurry.jpg";
+import ChickenThaiCurry from "../../assets/foodimages/ChickenThaiCurry.jpg";
+
+import PaneerChilly from "../../assets/foodimages/PaneerChilly.jpg";
+import VegManchurianDry from "../../assets/foodimages/VegManchurianDry.jpg";
+import ChickenLollipopStarter from "../../assets/foodimages/ChickenLollipopStarter.jpg";
+import ChickenChillyDry from "../../assets/foodimages/ChickenChillyDry.jpg";
+
+import HakkaNoodles from "../../assets/foodimages/HakkaNoodles.jpg";
+import SchezwanNoodles from "../../assets/foodimages/SchezwanNoodles.jpg";
+import BurntGarlicNoodles from "../../assets/foodimages/BurntGarlicNoodles.jpg";
+import HongKongNoodles from "../../assets/foodimages/HongKongNoodles.jpg";
+import ChickenHakkaNoodles from "../../assets/foodimages/ChickenHakkaNoodles.jpg";
+
+import FriedRice from "../../assets/foodimages/FriedRice.jpg";
+import SchezwanRice from "../../assets/foodimages/SchezwanRice.jpg";
+import BurntGarlicRice from "../../assets/foodimages/BurntGarlicRice.jpg";
+import ChickenFriedRice from "../../assets/foodimages/ChickenFriedRice.jpg";
+
+import ManchowSoup from "../../assets/foodimages/ManchowSoup.jpg";
+import SweetCornSoup from "../../assets/foodimages/SweetCornSoup.jpg";
+import ChickenManchowSoup from "../../assets/foodimages/ChickenManchowSoup.jpg";
+
+import MargheritaPizza from "../../assets/foodimages/MargheritaPizza.jpg";
+import CheeseCornPizza from "../../assets/foodimages/CheeseCornPizza.jpg";
+import PaneerTikkaPizza from "../../assets/foodimages/PaneerTikkaPizza.jpg";
+import ChickenTikkaPizza from "../../assets/foodimages/ChickenTikkaPizza.jpg";
+
+import VegMomos from "../../assets/foodimages/VegMomos.jpg";
+import VegCheeseMomos from "../../assets/foodimages/VegCheeseMomos.jpg";
+import ChickenMomos from "../../assets/foodimages/ChickenMomos.jpg";
+
+import VegFrankie from "../../assets/foodimages/VegFrankie.jpg";
+import PaneerTikkaFrankie from "../../assets/foodimages/PaneerTikkaFrankie.jpg"; 
+import ChickenFrankie from "../../assets/foodimages/ChickenFrankie.jpg";
+
+
+
+
+
+
 export interface MenuItem {
   id: string;
   name: string;
@@ -72,23 +171,23 @@ export const cuisines = [
 export const menuItems: MenuItem[] = [
 
 /* ================= MOCKTAIL ================= */
-{ id:"mocktail-1", name:"Lemon Mojito", description:"Refreshing mint lemon drink", price:75, image:"https://images.unsplash.com/photo-1551024709-8f23befc6c7a", category:"Mocktail", isVeg:true },
-{ id:"mocktail-2", name:"Peach Ice Tea", description:"Chilled peach tea", price:75, image:"https://images.unsplash.com/photo-1497534446932-c925b458314e", category:"Mocktail", isVeg:true },
-{ id:"mocktail-3", name:"Strawberry Margarita", description:"Sweet strawberry cooler", price:75, image:"https://images.unsplash.com/photo-1556679343-c7306c1976bc", category:"Mocktail", isVeg:true },
-{ id:"mocktail-4", name:"Cold Coffee", description:"Classic cold coffee", price:75, image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735", category:"Mocktail", isVeg:true },
+{ id:"mocktail-1", name:"Lemon Mojito", description:"Refreshing mint lemon drink", price:75, image:LemonMojito, category:"Mocktail", isVeg:true },
+{ id:"mocktail-2", name:"Peach Ice Tea", description:"Chilled peach tea", price:75, image:PeachIceTea, category:"Mocktail", isVeg:true },
+{ id:"mocktail-3", name:"Strawberry Margarita", description:"Sweet strawberry cooler", price:75, image:StrawberryMargarita, category:"Mocktail", isVeg:true },
+{ id:"mocktail-4", name:"Cold Coffee", description:"Classic cold coffee", price:75, image:ColdCoffee, category:"Mocktail", isVeg:true },
 
 /* ================= TEA & COFFEE ================= */
 { id:"tea-1", name:"Tea", description:"Regular tea", price:30, image:"https://images.unsplash.com/photo-1511920170033-f8396924c348", category:"Tea & Coffee", isVeg:true },
 { id:"tea-2", name:"Coffee", description:"Hot coffee", price:30, image:"https://images.unsplash.com/photo-1509042239860-f550ce710b93", category:"Tea & Coffee", isVeg:true },
 { id:"tea-3", name:"Black Coffee", description:"Strong black coffee", price:40, image:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085", category:"Tea & Coffee", isVeg:true },
-{ id:"tea-4", name:"Lemon Tea", description:"Light lemon tea", price:40, image:"https://images.unsplash.com/photo-1544787219-7f47ccb76574", category:"Tea & Coffee", isVeg:true },
+{ id:"tea-4", name:"Lemon Tea", description:"Light lemon tea", price:40, image:LemonTea, category:"Tea & Coffee", isVeg:true },
 
 /* ================= BREAD ================= */
 { id:"bread-1", name:"Bread Butter", description:"Classic bread butter", price:40, image:"https://images.unsplash.com/photo-1608198093002-ad4e005484ec", category:"Bread", isVeg:true },
-{ id:"bread-2", name:"Bread Omelette Plain", description:"Egg omelette with bread", price:75, image:"https://images.unsplash.com/photo-1604908176997-431d9b69b1c2", category:"Bread", isVeg:false },
-{ id:"bread-3", name:"Bread Omelette Grilled", description:"Grilled omelette sandwich", price:90, image:"https://images.unsplash.com/photo-1550507992-eb63ffee0847", category:"Bread", isVeg:false },
-{ id:"bread-4", name:"Cheese Bread Omelette", description:"Cheese omelette sandwich", price:95, image:"https://images.unsplash.com/photo-1550507992-eb63ffee0847", category:"Bread", isVeg:false },
-{ id:"bread-5", name:"Egg Bhurji Pav", description:"2 egg bhurji with pav", price:75, image:"https://images.unsplash.com/photo-1601050690597-df0568f70950", category:"Bread", isVeg:false },
+{ id:"bread-2", name:"Bread Omelette Plain", description:"Egg omelette with bread", price:75, image:BreadOmelettePlain, category:"Bread", isVeg:false },
+{ id:"bread-3", name:"Bread Omelette Grilled", description:"Grilled omelette sandwich", price:90, image:BreadOmeletteGrilled, category:"Bread", isVeg:false },
+{ id:"bread-4", name:"Cheese Bread Omelette", description:"Cheese omelette sandwich", price:95, image:CheeseBreadOmelette, category:"Bread", isVeg:false },
+{ id:"bread-5", name:"Egg Bhurji Pav", description:"2 egg bhurji with pav", price:75, image:EggBhurjiPav, category:"Bread", isVeg:false },
 
 /* ================= SMALL BITES ================= */
 { id:"bite-1", name:"Garlic Bread", description:"5 pcs garlic bread", price:180, image:"https://images.unsplash.com/photo-1585238342028-4a9a3c3bcd2b", category:"Small Bites", isVeg:true },
@@ -107,10 +206,10 @@ export const menuItems: MenuItem[] = [
 { id:"maggi-2", name:"Soupy Maggi", description:"Soup style maggi", price:70, image:"https://images.unsplash.com/photo-1604908177522-040d7dca5c5c", category:"Maggie", isVeg:true },
 { id:"maggi-3", name:"Masala Maggi", description:"Onion tomato masala", price:80, image:"https://images.unsplash.com/photo-1612929633738-8fe44f7ec841", category:"Maggie", isVeg:true },
 { id:"maggi-4", name:"Cheese Maggi", description:"Cheesy maggi", price:90, image:"https://images.unsplash.com/photo-1589302168068-964664d93dc0", category:"Maggie", isVeg:true },
-{ id:"maggi-5", name:"Veg Maggi", description:"Loaded veg maggi", price:110, image:"https://images.unsplash.com/photo-1606756790138-261d2b21cd6d", category:"Maggie", isVeg:true },
-{ id:"maggi-6", name:"Schezwan Maggi", description:"Spicy schezwan maggi", price:120, image:"https://images.unsplash.com/photo-1606756790138-261d2b21cd6d", category:"Maggie", isVeg:true },
-{ id:"maggi-7", name:"Peri Peri Maggi", description:"Peri peri maggi", price:120, image:"https://images.unsplash.com/photo-1606756790138-261d2b21cd6d", category:"Maggie", isVeg:true },
-{ id:"maggi-8", name:"Cheese Corn Maggi", description:"Corn cheese maggi", price:130, image:"https://images.unsplash.com/photo-1606756790138-261d2b21cd6d", category:"Maggie", isVeg:true },
+{ id:"maggi-5", name:"Veg Maggi", description:"Loaded veg maggi", price:110, image:VegMaggi, category:"Maggie", isVeg:true },
+{ id:"maggi-6", name:"Schezwan Maggi", description:"Spicy schezwan maggi", price:120, image:SchezwanMaggi, category:"Maggie", isVeg:true },
+{ id:"maggi-7", name:"Peri Peri Maggi", description:"Peri peri maggi", price:120, image:PeriPeriMaggi, category:"Maggie", isVeg:true },
+{ id:"maggi-8", name:"Cheese Corn Maggi", description:"Corn cheese maggi", price:130, image:CheeseCornMaggi, category:"Maggie", isVeg:true },
 
 
 // ================= SANDWICH =================
@@ -119,7 +218,7 @@ export const menuItems: MenuItem[] = [
   name: "Aloo Sandwich",
   description: "Simple potato sandwich",
   price: 50,
-  image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af",
+  image: AlooSandwich,
   category: "Sandwich",
   isVeg: true,
 },
@@ -128,7 +227,7 @@ export const menuItems: MenuItem[] = [
   name: "Jam Sandwich",
   description: "Sweet jam bread sandwich",
   price: 50,
-  image: "https://images.unsplash.com/photo-1554433607-66b5efe9d304",
+  image:JamSandwich,
   category: "Sandwich",
   isVeg: true,
 },
@@ -138,7 +237,7 @@ export const menuItems: MenuItem[] = [
   description: "Loaded veg cheese sandwich",
   priceHalf: 50,
   priceFull: 65,
-  image: "https://images.unsplash.com/photo-1550507992-eb63ffee0847",
+  image: VegCheeseSandwich,
   category: "Sandwich",
   isVeg: true,
 },
@@ -148,7 +247,7 @@ export const menuItems: MenuItem[] = [
   description: "Spicy schezwan sandwich",
   priceHalf: 50,
   priceFull: 65,
-  image: "https://images.unsplash.com/photo-1604908176997-431d9b69b1c2",
+  image: VegCheeseSchezwanSandwich,
   category: "Sandwich",
   isVeg: true,
 },
@@ -158,7 +257,7 @@ export const menuItems: MenuItem[] = [
   description: "Sweet chocolate sandwich",
   priceHalf: 60,
   priceFull: 80,
-  image: "https://images.unsplash.com/photo-1589307004395-7b7a66d52c7b",
+  image: ChocolateSandwich,
   category: "Sandwich",
   isVeg: true,
 },
@@ -170,7 +269,7 @@ export const menuItems: MenuItem[] = [
   description: "Veg patty with cheese",
   priceHalf: 110,
   priceFull: 140,
-  image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
+  image: VeggieCheesyBurger,
   category: "Burger",
   isVeg: true,
 },
@@ -180,7 +279,7 @@ export const menuItems: MenuItem[] = [
   description: "Crispy fried chicken burger",
   priceHalf: 120,
   priceFull: 150,
-  image: "https://images.unsplash.com/photo-1606756790138-261d2b21cd6d",
+  image: FriedChickenBurger,
   category: "Burger",
   isVeg: false,
 },
@@ -191,7 +290,7 @@ export const menuItems: MenuItem[] = [
   name: "Veg Wrap",
   description: "Healthy veg wrap",
   price: 100,
-  image: "https://images.unsplash.com/photo-1606755962773-d324e0a13086",
+  image: VegWrap,
   category: "Wrap",
   isVeg: true,
 },
@@ -200,7 +299,7 @@ export const menuItems: MenuItem[] = [
   name: "Paneer Tikka Roll",
   description: "Paneer tikka stuffed roll",
   price: 150,
-  image: "https://images.unsplash.com/photo-1604908177522-040d7dca5c5c",
+  image: PaneerTikkaRoll,
   category: "Wrap",
   isVeg: true,
 },
@@ -209,7 +308,7 @@ export const menuItems: MenuItem[] = [
   name: "Chicken Bhuna Wrap",
   description: "Spicy chicken wrap",
   price: 150,
-  image: "https://images.unsplash.com/photo-1606756790138-261d2b21cd6d",
+  image: ChickenBhunaWrap,
   category: "Wrap",
   isVeg: false,
 },
@@ -218,7 +317,7 @@ export const menuItems: MenuItem[] = [
   name: "Chicken Kebab Roll",
   description: "Tandoori kebab roll",
   price: 160,
-  image: "https://images.unsplash.com/photo-1617196034736-26c5f7c977ce",
+  image: ChickenKebabRoll,
   category: "Wrap",
   isVeg: false,
 },
@@ -238,7 +337,7 @@ export const menuItems: MenuItem[] = [
   name: "Arrabbiata Pasta",
   description: "Spicy red sauce pasta",
   price: 200,
-  image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5",
+  image: ArrabbiataPasta,
   category: "Pasta",
   isVeg: true,
 },
@@ -247,7 +346,7 @@ export const menuItems: MenuItem[] = [
   name: "Pink Sauce Pasta",
   description: "Mix of white & red sauce",
   price: 200,
-  image: "https://images.unsplash.com/photo-1608756687911-aa1599ab3bd9",
+  image: PinkSaucePasta,
   category: "Pasta",
   isVeg: true,
 },
@@ -256,7 +355,7 @@ export const menuItems: MenuItem[] = [
   name: "Chicken Alfredo Pasta",
   description: "Creamy chicken pasta",
   price: 250,
-  image: "https://images.unsplash.com/photo-1604908176997-431d9b69b1c2",
+  image: ChickenAlfredoPasta,
   category: "Pasta",
   isVeg: false,
 },
@@ -287,7 +386,7 @@ export const menuItems: MenuItem[] = [
   name: "Paneer Chilly",
   description: "Spicy paneer starter",
   price: 190,
-  image: "https://images.unsplash.com/photo-1604908176997-431d9b69b1c2",
+  image:PaneerChilly,
   category: "Starter",
   isVeg: true,
 },
