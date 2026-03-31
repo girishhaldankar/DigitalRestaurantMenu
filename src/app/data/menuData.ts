@@ -24,7 +24,7 @@ import Nachos from "../../assets/foodimages/Nachos.jpg";
 import PotatoWedges from "../../assets/foodimages/PotatoWedges.jpg";
 import VegAlooTikki from "../../assets/foodimages/VegAlooTikki.jpg";
 import ChickenNuggets from "../../assets/foodimages/ChickenNuggets.jpg";
-import ChickenLollipop from "../../assets/foodimages/ChickenLollipop.jpg";
+import ChickenLollipop from "../../assets/chicken-lollipop.jpg";
 
 import ClassicMaggi from "../../assets/foodimages/ClassicMaggi.jpg";
 import SoupyMaggi from "../../assets/foodimages/SoupyMaggi.jpg";
@@ -59,16 +59,16 @@ import ChickenAlfredoPasta from "../../assets/chicken-alfredo-pasta.jpg";
 import VegThaiCurry from "../../assets/foodimages/VegThaiCurry.jpg";
 import ChickenThaiCurry from "../../assets/foodimages/ChickenThaiCurry.jpg";
 
-import PaneerChilly from "../../assets/paneer-chilly.jpg";
+import PaneerChilly from "../../assets/paneer-chilli.jpg";
 import VegManchurianDry from "../../assets/foodimages/VegManchurianDry.jpg";
-import ChickenLollipopStarter from "../../assets/foodimages/ChickenLollipopStarter.jpg";
-import ChickenChillyDry from "../../assets/foodimages/ChickenChillyDry.jpg";
+import ChickenLollipopStarter from "../../assets/chicken-lollipop.jpg";
+import ChickenChillyDry from "../../assets/chicken-chilly-dry.jpg";
 
 import HakkaNoodles from "../../assets/foodimages/HakkaNoodles.jpg";
-import SchezwanNoodles from "../../assets/foodimages/SchezwanNoodles.jpg";
+import SchezwanNoodles from "../../assets/schezwan-noodles.jpg";
 import BurntGarlicNoodles from "../../assets/foodimages/BurntGarlicNoodles.jpg";
-import HongKongNoodles from "../../assets/foodimages/HongKongNoodles.jpg";
-import ChickenHakkaNoodles from "../../assets/foodimages/ChickenHakkaNoodles.jpg";
+import HongKongNoodles from "../../assets/hong-kong-noodles.jpg";
+import ChickenHakkaNoodles from "../../assets/chicken-hakka-noodles.jpg";
 
 import FriedRice from "../../assets/foodimages/FriedRice.jpg";
 import SchezwanRice from "../../assets/foodimages/SchezwanRice.jpg";
@@ -77,7 +77,7 @@ import ChickenFriedRice from "../../assets/foodimages/ChickenFriedRice.jpg";
 
 import ManchowSoup from "../../assets/foodimages/ManchowSoup.jpg";
 import SweetCornSoup from "../../assets/foodimages/SweetCornSoup.jpg";
-import ChickenManchowSoup from "../../assets/foodimages/ChickenManchowSoup.jpg";
+import ChickenManchowSoup from "../../assets/chicken-manchow-soup.jpg";
 
 import MargheritaPizza from "../../assets/foodimages/MargheritaPizza.jpg";
 import CheeseCornPizza from "../../assets/foodimages/CheeseCornPizza.jpg";
@@ -199,7 +199,7 @@ export const menuItems: MenuItem[] = [
 { id:"bite-7", name:"Potato Wedges", description:"Crispy wedges", priceHalf:120, priceFull:200, image:"https://images.unsplash.com/photo-1606755962773-d324e0a13086", category:"Small Bites", isVeg:true },
 { id:"bite-8", name:"Veg Aloo Tikki", description:"4/8 pcs aloo tikki", priceHalf:110, priceFull:180, image:"https://images.unsplash.com/photo-1606756790138-261d2b21cd6d", category:"Small Bites", isVeg:true },
 { id:"bite-9", name:"Chicken Nuggets", description:"6 pcs nuggets", price:190, image:"https://images.unsplash.com/photo-1600891964599-f61ba0e24092", category:"Small Bites", isVeg:false },
-{ id:"bite-10", name:"Chicken Lollipop", description:"4 pcs lollipop", price:200, image:"https://images.unsplash.com/photo-1600891964599-f61ba0e24092", category:"Small Bites", isVeg:false },
+{ id:"bite-10", name:"Chicken Lollipop", description:"4 pcs lollipop", price:200, image:ChickenLollipopStarter, category:"Small Bites", isVeg:false },
 
 /* ================= MAGGI ================= */
 { id:"maggi-1", name:"Classic Maggi", description:"Simple maggi", price:60, image:"https://images.unsplash.com/photo-1604908177522-040d7dca5c5c", category:"Maggie", isVeg:true },
@@ -404,7 +404,7 @@ export const menuItems: MenuItem[] = [
   name: "Chicken Lollipop",
   description: "Crispy chicken lollipop",
   price: 200,
-  image: "https://images.unsplash.com/photo-1617196034736-26c5f7c977ce",
+  image: ChickenLollipop,
   category: "Starter",
   isVeg: false,
 },
@@ -413,7 +413,7 @@ export const menuItems: MenuItem[] = [
   name: "Chicken Chilly Dry",
   description: "Spicy dry chicken",
   price: 220,
-  image: "https://images.unsplash.com/photo-1606755962773-d324e0a13086",
+  image: ChickenChillyDry,
   category: "Starter",
   isVeg: false,
 },
@@ -434,7 +434,7 @@ export const menuItems: MenuItem[] = [
   description: "Spicy schezwan noodles",
   priceHalf: 130,
   priceFull: 240,
-  image: "https://images.unsplash.com/photo-1617196034736-26c5f7c977ce",
+  image: SchezwanNoodles,
   category: "Noodles",
   isVeg: true,
 },
@@ -454,7 +454,7 @@ export const menuItems: MenuItem[] = [
   description: "Street style noodles",
   priceHalf: 140,
   priceFull: 250,
-  image: "https://images.unsplash.com/photo-1604908176997-431d9b69b1c2",
+  image: HongKongNoodles,
   category: "Noodles",
   isVeg: true,
 },
@@ -464,7 +464,7 @@ export const menuItems: MenuItem[] = [
   description: "Chicken hakka noodles",
   priceHalf: 130,
   priceFull: 250,
-  image: "https://images.unsplash.com/photo-1606756790138-261d2b21cd6d",
+  image: ChickenHakkaNoodles,
   category: "Noodles",
   isVeg: false,
 },
@@ -538,7 +538,7 @@ export const menuItems: MenuItem[] = [
   description: "Chicken spicy soup",
   priceHalf: 90,
   priceFull: 150,
-  image: "https://images.unsplash.com/photo-1617196034736-26c5f7c977ce",
+  image: ChickenManchowSoup,
   category: "Soup",
   isVeg: false,
 },

@@ -1,25 +1,22 @@
 import { motion, AnimatePresence } from "motion/react";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useState } from "react";
-import { QRCodeSVG } from "qrcode.react";
 import type { MenuItem } from "../data/menuData";
-
-// 🔥 FIREBASE IMPORTS
 import { db } from "../../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, updateDoc } from "firebase/firestore";
 
 interface CartItem {
   item: MenuItem;
   quantity: number;
-  size: "half" | "full"; // ✅ IMPORTANT
+  size: "half" | "full";
 }
 
 interface CheckoutSheetProps {
   isOpen: boolean;
   onClose: () => void;
   cartItems: CartItem[];
-  onAdd: (id: string, size: "half" | "full") => void;     // ✅ UPDATED
-  onRemove: (id: string, size: "half" | "full") => void;  // ✅ UPDATED
+  onAdd: (id: string, size: "half" | "full") => void;
+  onRemove: (id: string, size: "half" | "full") => void;
   onClearCart: () => void;
 }
 
@@ -35,82 +32,74 @@ export function CheckoutSheet({
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
 
-  // ✅ FIX PRICE CALCULATION
-  const getItemPrice = (item: MenuItem, size: "half" | "full") => {
-    if (size === "half") return item.priceHalf ?? item.price ?? 0;
-    return item.priceFull ?? item.price ?? 0;
-  };
+  const getItemPrice = (item: MenuItem, size: "half" | "full") =>
+    size === "half" ? item.priceHalf ?? item.price ?? 0 : item.priceFull ?? item.price ?? 0;
 
   const subtotal = cartItems.reduce(
-    (sum, { item, quantity, size }) =>
-      sum + getItemPrice(item, size) * quantity,
+    (sum, { item, quantity, size }) => sum + getItemPrice(item, size) * quantity,
     0
   );
 
   const total = Math.max(10, Math.round(subtotal));
-
-  const upiId = "kumuhaldankar-1@okicici";
   const businessName = "My Kitchen";
 
-  const upiQRString = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
-    businessName
-  )}&am=${total}&cu=INR`;
-
-  const handlePlaceOrder = async () => {
+  /* ================= PLACE ORDER WITH RAZORPAY ================= */
+  const handleRazorpayPayment = async () => {
     if (!name || !phone || !location) {
       alert("Please fill all details");
       return;
     }
 
     try {
-      await addDoc(collection(db, "orders"), {
+      // 1️⃣ Save order immediately as pending
+      const orderRef = await addDoc(collection(db, "orders"), {
         name,
         phone,
         location,
         items: cartItems,
         total,
-        status: "pending",
+        status: "pending", // Admin will get notification
+        method: "Razorpay",
+        paymentId: null,
         createdAt: serverTimestamp(),
       });
 
-      const audio = new Audio("/notification.mp3");
-      audio.play();
+      // 🔑 Razorpay options
+      const options = {
+        key: "rzp_test_SXmbOsiE7DQKdG", // YOUR TEST KEY
+        amount: total * 100,
+        currency: "INR",
+        name: businessName,
+        description: "Order Payment",
+        image: "/logo.png",
+        handler: async (response: any) => {
+          try {
+            // 2️⃣ Update order as paid after successful payment
+            await updateDoc(doc(db, "orders", orderRef.id), {
+              status: "paid",
+              paymentId: response.razorpay_payment_id,
+            });
 
-      const phoneNumber = "919769841929";
+            alert("Payment Successful & Order Placed! 🔥");
+          } catch (error) {
+            console.error(error);
+            alert("Error updating payment status");
+          }
+        },
+        prefill: { name, email: "test@example.com", contact: phone },
+        theme: { color: "#10B981" },
+        modal: { escape: true, backdropclose: false },
+      };
 
-      const orderDetails = cartItems
-        .map(
-          ({ item, quantity, size }) =>
-            `• ${item.name} (${size}) x${quantity} = ₹${
-              getItemPrice(item, size) * quantity
-            }`
-        )
-        .join("\n");
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
 
-      const message = `🍴 MY KITCHEN
-
-👤 ${name}
-📞 ${phone}
-📍 ${location}
-
-📦 ORDER:
-${orderDetails}
-
-💰 Total: ₹${total}
-
-(Paid via UPI)`;
-
-      window.open(
-        `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
-        "_blank"
-      );
-
+      // Clear cart & inputs
       onClearCart();
       setName("");
       setPhone("");
       setLocation("");
-
-      alert("Order Placed Successfully 🔥");
+      onClose();
     } catch (error) {
       console.error(error);
       alert("Error placing order");
@@ -143,9 +132,7 @@ ${orderDetails}
                 <ShoppingBag className="text-teal-500" />
                 <h2 className="font-bold text-lg">Your Cart</h2>
               </div>
-              <button onClick={onClose}>
-                <X />
-              </button>
+              <button onClick={onClose}><X /></button>
             </div>
 
             {/* CONTENT */}
@@ -155,68 +142,27 @@ ${orderDetails}
               ) : (
                 <>
                   {cartItems.map(({ item, quantity, size }) => (
-                    <div
-                      key={item.id + size} // ✅ IMPORTANT
-                      className="flex gap-3 border rounded-xl p-3"
-                    >
-                      <img
-                        src={item.image}
-                        className="w-20 h-20 rounded-lg object-cover"
-                      />
-
+                    <div key={item.id + size} className="flex gap-3 border rounded-xl p-3">
+                      <img src={item.image} className="w-20 h-20 rounded-lg object-cover" />
                       <div className="flex-1 flex flex-col justify-between">
-                        <h3 className="font-semibold text-sm">
-                          {item.name} ({size})
-                        </h3>
-
+                        <h3 className="font-semibold text-sm">{item.name} ({size})</h3>
                         <div className="flex justify-between items-center">
                           <div className="flex items-center bg-gray-100 rounded-lg px-2">
-                            <button onClick={() => onRemove(item.id, size)}>
-                              <Minus size={14} />
-                            </button>
-
+                            <button onClick={() => onRemove(item.id, size)}><Minus size={14} /></button>
                             <span className="px-2">{quantity}</span>
-
-                            <button onClick={() => onAdd(item.id, size)}>
-                              <Plus size={14} />
-                            </button>
+                            <button onClick={() => onAdd(item.id, size)}><Plus size={14} /></button>
                           </div>
-
-                          <span className="font-bold">
-                            ₹{getItemPrice(item, size) * quantity}
-                          </span>
+                          <span className="font-bold">₹{getItemPrice(item, size) * quantity}</span>
                         </div>
                       </div>
                     </div>
                   ))}
+                  <button onClick={onClearCart} className="text-red-500 text-sm">Clear Cart</button>
 
-                  <button
-                    onClick={onClearCart}
-                    className="text-red-500 text-sm"
-                  >
-                    Clear Cart
-                  </button>
-
-                  {/* FORM */}
                   <div className="space-y-3 pt-2">
-                    <input
-                      placeholder="Your Name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full border rounded-lg p-3"
-                    />
-                    <input
-                      placeholder="Phone Number"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full border rounded-lg p-3"
-                    />
-                    <input
-                      placeholder="Table No / Location"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      className="w-full border rounded-lg p-3"
-                    />
+                    <input placeholder="Your Name" value={name} onChange={e => setName(e.target.value)} className="w-full border rounded-lg p-3" />
+                    <input placeholder="Phone Number" value={phone} onChange={e => setPhone(e.target.value)} className="w-full border rounded-lg p-3" />
+                    <input placeholder="Table No / Location" value={location} onChange={e => setLocation(e.target.value)} className="w-full border rounded-lg p-3" />
                   </div>
                 </>
               )}
@@ -230,27 +176,12 @@ ${orderDetails}
                     <p className="text-xs text-gray-500">Total</p>
                     <p className="font-bold text-lg">₹{total}</p>
                   </div>
-
                   <button
-                    onClick={handlePlaceOrder}
+                    onClick={handleRazorpayPayment}
                     className="bg-teal-600 text-white px-4 py-3 rounded-lg font-semibold"
                   >
-                    Place Order 🚀
+                    Pay & Place Order
                   </button>
-                </div>
-
-                <div className="flex items-center justify-between bg-gray-50 rounded-xl p-3">
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Scan & Pay</p>
-                    <p className="text-xs text-gray-500">UPI ID</p>
-                    <p className="text-teal-600 font-semibold text-xs break-all">
-                      {upiId}
-                    </p>
-                  </div>
-
-                  <div className="ml-3">
-                    <QRCodeSVG value={upiQRString} size={90} />
-                  </div>
                 </div>
               </div>
             )}
