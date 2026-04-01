@@ -20,44 +20,45 @@ export function Header({ onExploreClick }: HeaderProps) {
      <motion.div
   initial={{ opacity: 0, x: -20 }}
   animate={{ opacity: 1, x: 0 }}
-  className="flex flex-col md:flex-row items-center md:items-start gap-2  mb-2 group hover:scale-105 transition-transform duration-300"
+  className="flex flex-col md:flex-row items-center md:items-start gap-2 mb-2 group hover:scale-105 transition-transform duration-300"
 >
   {/* Logo Image */}
   <img
     src="/CIBOlogo.png"
     alt="CIBO Logo"
-    className="w-28 h-28 sm:w-32 sm:h-32 md:w-24 md:h-24 object-contain drop-shadow-xl"
+    className="w-36 h-36 sm:w-40 sm:h-40 md:w-28 md:h-28 object-contain drop-shadow-xl"
   />
 
   <div className="flex flex-col items-center relative leading-none">
-  {/* CIBO */}
-  <h1
-    className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-[0.18em] drop-shadow-md"
-    style={{
-      background: "linear-gradient(90deg, #4fd1c5, #2c7a7b)",
-      WebkitBackgroundClip: "text",
-      WebkitTextFillColor: "transparent",
-    }}
-  >
-    CIBO
-  </h1>
+    
+    {/* CIBO */}
+    <h1
+      className="text-5xl sm:text-6xl md:text-6xl font-extrabold tracking-[0.18em] drop-shadow-md"
+      style={{
+        background: "linear-gradient(90deg, #4fd1c5, #2c7a7b)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+      }}
+    >
+      CIBO
+    </h1>
 
-  {/* Kitchen */}
-  <h2
-    className="text-3xl text-shadow-2xs text-shadow-gray-400 sm:text-4xl md:text-5xl text-black -mt-6 text-center z-50"
-    style={{
-      fontFamily: "'Allura', cursive",
-      
-    }}
-  >
-    Kitchen
-  </h2>
+    {/* Kitchen */}
+    <h2
+      className="text-5xl sm:text-6xl md:text-6xl text-black -mt-6 text-center z-50 text-shadow-2xs text-shadow-gray-400 tracking-tighter"
+      style={{
+        fontFamily: "'Allura', cursive",
+      }}
+    >
+      Kitchen
+    </h2>
 
-  {/* Tagline */}
-  <p className="tracking-[0.28em] text-[11px] sm:text-xs text-gray-100 mt-0 px-3 py-1 bg-teal-700/40 backdrop-blur-md rounded-full tracking-[0.2em] uppercase shadow-sm">
-    Yummy Food
-  </p>
-</div>
+    {/* Tagline */}
+    <p className="text-sm sm:text-base md:text-xs text-gray-100 mt-1 px-3 py-1 bg-teal-700/40 backdrop-blur-md rounded-full uppercase shadow-sm tracking-[0.2em]">
+      Yummy Food
+    </p>
+
+  </div>
 </motion.div>
 
         {/* Hero Section */}
