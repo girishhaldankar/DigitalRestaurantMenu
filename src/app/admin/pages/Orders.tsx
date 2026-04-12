@@ -48,16 +48,14 @@ export default function Orders() {
   useEffect(() => {
     audioRef.current = new Audio("/notification.mp3");
     audioRef.current.loop = true;
-    audioRef.current.volume = 1;
   }, []);
 
-  const playSound = () => {
-    audioRef.current?.play().catch(() => {});
-  };
-
+  const playSound = () => audioRef.current?.play().catch(() => {});
   const stopSound = () => {
-    audioRef.current?.pause();
-    if (audioRef.current) audioRef.current.currentTime = 0;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
   };
 
   /* ---------------- FIRESTORE ---------------- */
@@ -75,34 +73,24 @@ export default function Orders() {
           if (o.status === "failed" || o.status === "cancelled") {
             return { ...o, status: "cancelled" };
           }
-
           if (o.status === "created" || o.status === "pending") return null;
-
           if (o.status === "paid") return { ...o, status: "new" };
-
           return o;
         })
         .filter(Boolean) as OrderType[];
 
-      /* ---------------- SOUND LOGIC (NEW ORDER DETECT) ---------------- */
       const currentIds = mappedOrders.map((o) => o.id);
+      const isNewOrder = currentIds.length > prevOrderIds.current.length;
 
-      const isNewOrder =
-        currentIds.length > prevOrderIds.current.length;
-
-      if (isNewOrder) {
-        playSound();
-      }
+      if (isNewOrder) playSound();
 
       prevOrderIds.current = currentIds;
-
       setOrders(mappedOrders);
     });
 
     return () => unsubscribe();
   }, []);
 
-  /* ---------------- STOP SOUND WHEN NO NEW ---------------- */
   useEffect(() => {
     const hasNew = orders.some((o) => o.status === "new");
     if (!hasNew) stopSound();
@@ -117,10 +105,7 @@ export default function Orders() {
 
   const formatDateTime = (timestamp: any) => {
     if (!timestamp) return "";
-    const date = timestamp.toDate
-      ? timestamp.toDate()
-      : new Date(timestamp);
-
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     return `${date.toLocaleDateString()} • ${date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -131,22 +116,30 @@ export default function Orders() {
     window.open(`/bill/${orderId}`, "_blank");
   };
 
-  /* ---------------- BLINK LOGIC ---------------- */
   const isBlinking = (order: OrderType) => order.status === "new";
 
-  const scrollToTab = (index: number) => {
-    if (!sliderRef.current) return;
-    const container = sliderRef.current;
-    const child = container.children[index] as HTMLElement;
+const scrollToTab = (index: number) => {
+  if (!sliderRef.current) return;
 
-    container.scrollTo({
-      left:
-        child.offsetLeft -
-        container.offsetWidth / 2 +
-        child.offsetWidth / 2,
-      behavior: "smooth",
-    });
-  };
+  const container = sliderRef.current;
+  const child = container.children[index] as HTMLElement;
+
+  if (!child) return;
+
+  const containerRect = container.getBoundingClientRect();
+  const childRect = child.getBoundingClientRect();
+
+  const offset =
+    childRect.left -
+    containerRect.left -
+    container.clientWidth / 2 +
+    child.clientWidth / 2;
+
+  container.scrollBy({
+    left: offset,
+    behavior: "smooth",
+  });
+};
 
   const updateStatus = async (order: OrderType, status: string) => {
     const data: any = { status };
@@ -158,8 +151,6 @@ export default function Orders() {
     }
 
     await updateDoc(doc(db, "orders", order.id), data);
-
-    // stop blink immediately after action
     stopSound();
   };
 
@@ -220,17 +211,23 @@ export default function Orders() {
   return (
     <div className="space-y-6 p-4">
 
-      {/* STATUS TABS */}
-      <div
-        ref={sliderRef}
-        className="flex gap-4 overflow-x-auto p-2 md:grid md:grid-cols-6"
-      >
+      {/* ✅ STATUS TABS (FINAL CLEAN VERSION) */}
+     <div
+  ref={sliderRef}
+  className="
+    flex gap-3 p-2
+    overflow-x-auto flex-nowrap
+    scrollbar-hide
+    scroll-smooth
+  "
+>
+        {/* ALL */}
         <div
           onClick={() => {
             setFilterStatus(null);
             scrollToTab(0);
           }}
-          className={`min-w-[140px] p-4 rounded-2xl bg-white/5 cursor-pointer ${
+          className={`min-w-[120px] md:min-w-[150px] flex-shrink-0 p-3 md:p-4 rounded-2xl bg-white/5 cursor-pointer ${
             filterStatus === null ? "ring-2 ring-teal-400" : ""
           }`}
         >
@@ -239,6 +236,7 @@ export default function Orders() {
 
         {STATUS_FLOW.map((s, i) => {
           const Icon = STATUS_UI[s].icon;
+
           return (
             <div
               key={s}
@@ -246,7 +244,7 @@ export default function Orders() {
                 setFilterStatus(s);
                 scrollToTab(i + 1);
               }}
-              className={`min-w-[140px] p-4 rounded-2xl flex items-center gap-2 cursor-pointer
+              className={`min-w-[120px] md:min-w-[150px] flex-shrink-0 p-3 md:p-4 rounded-2xl flex items-center gap-2 cursor-pointer
               ${STATUS_UI[s].bg}
               ${filterStatus === s ? "ring-2 ring-white" : ""}
               ${s === "new" && stats[s] > 0 ? "animate-pulse ring-2 ring-red-500" : ""}`}
@@ -269,11 +267,10 @@ export default function Orders() {
           return (
             <div
               key={order.id}
-              className={`bg-gray-800 p-5 rounded-2xl ${
+              className={`bg-gray-800 p-4 md:p-5 rounded-2xl ${
                 isBlinking(order) ? "animate-pulse ring-2 ring-red-500" : ""
               }`}
             >
-
               <div className="flex justify-between">
                 <div>
                   <p className="text-white text-lg">{order.name}</p>
@@ -294,23 +291,24 @@ export default function Orders() {
                 </p>
               )}
 
-              {/* TIME */}
+              {/* PREP TIME */}
               <div className="flex gap-2 mt-3">
-                <input
-                  type="number"
-                  disabled={isLocked}
-                  className={`w-20 px-2 py-1 rounded text-sm ${
-                    isLocked
-                      ? "bg-gray-600 opacity-50"
-                      : "bg-gray-700 text-white"
-                  }`}
-                  onChange={(e) =>
-                    setTimeInput({
-                      ...timeInput,
-                      [order.id]: Number(e.target.value),
-                    })
-                  }
-                />
+               <input
+  type="number"
+  disabled={isLocked}
+  value={timeInput[order.id] ?? order.prepTime ?? 20}
+  className={`w-20 px-2 py-1 rounded text-sm ${
+    isLocked
+      ? "bg-gray-600 opacity-50"
+      : "bg-gray-700 text-white"
+  }`}
+  onChange={(e) =>
+    setTimeInput({
+      ...timeInput,
+      [order.id]: Number(e.target.value),
+    })
+  }
+/>
 
                 <button
                   disabled={isLocked}
@@ -327,7 +325,6 @@ export default function Orders() {
 
               {/* ACTIONS */}
               <div className="flex flex-wrap gap-2 mt-3">
-
                 {getNextStatus(order.status) && (
                   <button
                     onClick={() =>
@@ -363,7 +360,6 @@ export default function Orders() {
                 >
                   Delete
                 </button>
-
               </div>
             </div>
           );
