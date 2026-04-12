@@ -3,14 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Digital Restaurant Dashboard</title>
+  <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+  <title>CIBO Kitchen </title>
 
-  <!-- 🔥 Dynamic PWA Manifest -->
+  <!-- 🔥 Dynamic Manifest -->
   <link id="manifest-link" rel="manifest" href="/manifest-menu.json" />
+
+  <!-- ✅ PWA iOS Support -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="icon" href="/icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#114041" />
+
   <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-  <meta name="theme-color" content="#4CAF50" />
 </head>
 
 <body>
@@ -18,29 +28,25 @@
 
   <script type="module" src="/src/main.tsx"></script>
 
-
   <!-- 🔥 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker
-          .register('/service-worker.js')
-          .then(reg => console.log('✅ Service Worker registered:', reg))
-          .catch(err => console.error('❌ Service Worker failed:', err));
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('✅ SW registered:', reg))
+          .catch(err => console.log('❌ SW failed:', err));
       });
     }
   </script>
 
-  <!-- 🔥 Dynamic Manifest Switch -->
+  <!-- 🔥 Dynamic Manifest -->
   <script>
     const manifestLink = document.getElementById("manifest-link");
 
     if (window.location.pathname.startsWith("/admin")) {
       manifestLink.setAttribute("href", "/manifest-admin.json");
-      console.log("📱 Admin Manifest Loaded");
     } else {
       manifestLink.setAttribute("href", "/manifest-menu.json");
-      console.log("📱 Menu Manifest Loaded");
     }
   </script>
 

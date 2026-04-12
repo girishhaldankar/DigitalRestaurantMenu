@@ -1,254 +1,61 @@
-import { useState, useMemo, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-import { Header } from "./components/Header";
-import { SearchBar } from "./components/SearchBar";
-import { VegFilter } from "./components/VegFilter";
-import { CategoryTabs } from "./components/CategoryTabs";
-import { MenuItemCard } from "./components/MenuItemCard";
-import { CartButton } from "./components/CartButton";
-import { CheckoutSheet } from "./components/CheckoutSheet";
-import { menuItems, categories } from "./data/menuData";
+// USER
+import UserApp from "../app/user/UserApp";
 
-// ✅ CART TYPE
-interface CartItem {
-  id: string;
-  size: "half" | "full";
-  quantity: number;
-}
+// ADMIN
+import AdminLayout from "../app/admin/components/AdminLayout";
+import Dashboard from "../app/admin/pages/Dashboard";
+import Orders from "../app/admin/pages/Orders";
+import Reports from "../app/admin/pages/Reports";
+import Products from "../app/admin/pages/Products";
+import Settings from "../app/admin/pages/Settings";
 
-function App() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedCuisine, setSelectedCuisine] = useState("All");
-  const [vegFilter, setVegFilter] = useState<"all" | "veg" | "nonveg">("all");
-  const [searchQuery, setSearchQuery] = useState("");
+// AUTH
+import ProtectedRoute from "../app/admin/components/ProtectedRoute";
+import AdminLogin from "../app/admin/pages/AdminLogin";
 
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const menuRef = useRef<HTMLDivElement>(null);
+import CustomerLogin from "../app/user/pages/CustomerLogin";
+import CustomerRegister from "../app/user/pages/CustomerRegister";
 
-  const scrollToMenu = () => {
-    menuRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+// USER PAGES (IMPORTANT)
+import TrackOrder from "../app/user/pages/TrackOrder";
+import BillPage from "../app/user/pages/BillPage";
 
-  // =========================
-  // CUISINE LOGIC
-  // =========================
-  const getCuisine = (category: string) => {
-    if (["Noodles", "Rice", "Starter", "Soup", "Momos"].includes(category))
-      return "Chinese";
-
-    if (["Pizza", "Pasta", "Burger", "Sandwich"].includes(category))
-      return "Continental";
-
-    return "Indian";
-  };
-
-  const cuisines = ["All", "Indian", "Chinese", "Continental"];
-
-  // =========================
-  // FILTER
-  // =========================
-  const filteredItems = useMemo(() => {
-    return menuItems.filter((item) => {
-      const matchCategory =
-        selectedCategory === "All" || item.category === selectedCategory;
-
-      const matchCuisine =
-        selectedCuisine === "All" ||
-        getCuisine(item.category) === selectedCuisine;
-
-      const matchVeg =
-        vegFilter === "all" ||
-        (vegFilter === "veg" && item.isVeg) ||
-        (vegFilter === "nonveg" && !item.isVeg);
-
-      const matchSearch =
-        !searchQuery ||
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.category.toLowerCase().includes(searchQuery.toLowerCase());
-
-      return matchCategory && matchCuisine && matchVeg && matchSearch;
-    });
-  }, [selectedCategory, selectedCuisine, vegFilter, searchQuery]);
-
-  // =========================
-  // CART LOGIC
-  // =========================
-  const getPrice = (item: any, size: "half" | "full") => {
-    if (size === "half") return item.priceHalf ?? item.price ?? 0;
-    return item.priceFull ?? item.price ?? 0;
-  };
-
-  const cartItems = useMemo(() => {
-    return cart.map((cartItem) => ({
-      item: menuItems.find((i) => i.id === cartItem.id)!,
-      quantity: cartItem.quantity,
-      size: cartItem.size,
-    }));
-  }, [cart]);
-
-  const cartTotal = useMemo(() => {
-    return cartItems.reduce(
-      (sum, { item, quantity, size }) =>
-        sum + getPrice(item, size) * quantity,
-      0
-    );
-  }, [cartItems]);
-
-  const totalItemsInCart = useMemo(() => {
-    return cart.reduce((sum, item) => sum + item.quantity, 0);
-  }, [cart]);
-
-  const addToCart = (id: string, size: "half" | "full") => {
-    setCart((prev) => {
-      const existing = prev.find(
-        (i) => i.id === id && i.size === size
-      );
-
-      if (existing) {
-        return prev.map((i) =>
-          i.id === id && i.size === size
-            ? { ...i, quantity: i.quantity + 1 }
-            : i
-        );
-      }
-
-      return [...prev, { id, size, quantity: 1 }];
-    });
-  };
-
-  const removeFromCart = (id: string, size: "half" | "full") => {
-    setCart((prev) =>
-      prev
-        .map((i) =>
-          i.id === id && i.size === size
-            ? { ...i, quantity: i.quantity - 1 }
-            : i
-        )
-        .filter((i) => i.quantity > 0)
-    );
-  };
-
-  const clearCart = () => setCart([]);
-
-  // =========================
-  // UI
-  // =========================
+export default function App() {
   return (
-    <div
-      className="min-h-screen relative"
-      style={{ fontFamily: "Poppins, sans-serif" }}
-    >
-      <div className="min-h-screen relative overflow-x-hidden flex flex-col">
+    <Routes>
 
-        {/* Background */}
-        <div className="fixed inset-0 z-0">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/food-bg.jpg')" }}
-          />
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[10px]" />
-        </div>
+      {/* ✅ THESE MUST BE OUTSIDE UserApp */}
+      <Route path="/bill/:id" element={<BillPage />} />
+      <Route path="/track/:id" element={<TrackOrder />} />
 
-        {/* Main */}
-        <div className="relative z-10 max-w-7xl mx-auto w-full flex-1 flex flex-col pt-6 px-4">
-          <div className="bg-white/15 backdrop-blur-[24px] border border-white/10 rounded-[3rem] shadow-2xl flex-1 flex flex-col overflow-hidden mb-6">
+      <Route path="/customer-login" element={<CustomerLogin />} />
+      <Route path="/customer-register" element={<CustomerRegister />} />
 
-            <Header onExploreClick={scrollToMenu} />
+      {/* ADMIN LOGIN */}
+      <Route path="/admin-login" element={<AdminLogin />} />
 
-            <div className="flex-1 overflow-y-auto custom-scrollbar">
-              <div className="max-w-7xl mx-auto px-6 py-8">
+      {/* ADMIN */}
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="products" element={<Products />} />
+        <Route path="settings" element={<Settings />} />
+      </Route>
 
-                {/* Search */}
-                <div ref={menuRef}>
-                  <SearchBar value={searchQuery} onChange={setSearchQuery} />
-                </div>
+      {/* USER LAST */}
+      <Route path="/*" element={<UserApp />} />
 
-                {/* Veg Filter */}
-                <VegFilter
-                  filter={vegFilter}
-                  onFilterChange={setVegFilter}
-                />
-
-                {/* Cuisine */}
-                <CategoryTabs
-                  categories={cuisines}
-                  selectedCategory={selectedCuisine}
-                  onSelectCategory={setSelectedCuisine}
-                />
-
-                {/* Category */}
-                <CategoryTabs
-                  categories={categories}
-                  selectedCategory={selectedCategory}
-                  onSelectCategory={setSelectedCategory}
-                />
-
-                {/* MENU */}
-                <main className="pb-32">
-                  {filteredItems.length === 0 ? (
-                    <div className="text-center py-20">
-                      <p className="text-gray-300 text-lg">No items found</p>
-                    </div>
-                  ) : (
-                    <div className="grid gap-4 md:gap-5">
-                      {filteredItems.map((item) => {
-                        const itemQty =
-                          cart.find((i) => i.id === item.id)?.quantity || 0;
-
-                        return (
-                          <MenuItemCard
-                            key={item.id}
-                            item={item}
-                            quantity={itemQty}
-                            onAdd={addToCart}
-                            onRemove={removeFromCart}
-                          />
-                        );
-                      })}
-                    </div>
-                  )}
-                </main>
-
-              </div>
-            </div>
-          </div>
-
-          {/* ✅ FOOTER (RAZORPAY REQUIRED) */}
-          <footer className="text-xs text-center text-gray-300 mb-6 space-x-4">
-            <Link to="/privacy-policy" className="hover:text-white">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="hover:text-white">
-              Terms
-            </Link>
-            <Link to="/refund-policy" className="hover:text-white">
-              Refund
-            </Link>
-          </footer>
-        </div>
-
-        {/* Cart */}
-        <CartButton
-          itemCount={totalItemsInCart}
-          total={cartTotal}
-          onClick={() => setIsCartOpen(true)}
-        />
-
-        <CheckoutSheet
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          cartItems={cartItems}
-          onAdd={addToCart}
-          onRemove={removeFromCart}
-          onClearCart={clearCart}
-        />
-      </div>
-    </div>
+    </Routes>
   );
 }
-
-export default App;

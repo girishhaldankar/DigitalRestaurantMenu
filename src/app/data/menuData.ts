@@ -5,7 +5,7 @@ import StrawberryMargarita from "../../assets/strawberry-margarita.jpg";
 import ColdCoffee from "../../assets/cold-coffee.jpg";
 
 import Tea from "../../assets/tea.jpg";
-import Coffee from "../../assets/foodimages/Coffee.jpg";
+import Coffee1 from "../../assets/black-coffee.jpg";
 import BlackCoffee from "../../assets/black-coffee.jpg";
 import LemonTea from "../../assets/lemon-tea.jpg";
 
@@ -113,25 +113,50 @@ export interface MenuItem {
   offerTag?: string;
 }
 
+import {
+  Utensils,
+  Coffee,
+  Sandwich,
+  Pizza,
+  Soup,
+  CupSoda,
+  Wheat,
+  Flame,
+  Drumstick,
+  IceCream,
+  CookingPot,
+  Soup as SoupIcon,
+  Beef,
+  Leaf,
+  Grid2X2,
+} from "lucide-react";
+
 export const categories = [
-  "All",
-  "Mocktail",
-  "Tea & Coffee",
-  "Bread",
-  "Small Bites",
-  "Maggie",
-  "Sandwich",
-  "Burger",
-  "Wrap",
-  "Pasta",
-  "Thai",
-  "Starter",
-  "Noodles",
-  "Rice",
-  "Soup",
-  "Pizza",
-  "Momos",
-  "Frankie",
+  { label: "All", value: "All", icon: "/icons/grid-2.png" },
+
+  { label: "Mocktail", value: "Mocktail", icon: "/icons/mocktail.png" },
+  { label: "Tea & Coffee", value: "Tea & Coffee", icon: "/icons/coffee.png" },
+  { label: "Bread", value: "Bread", icon: "/icons/bread.png" },
+  { label: "Small Bites", value: "Small Bites", icon: "/icons/fries.png" },
+
+  { label: "Maggie", value: "Maggie", icon: "/icons/maggi.png" },
+  { label: "Sandwich", value: "Sandwich", icon: "/icons/sandwich.png" },
+  { label: "Burger", value: "Burger", icon: "/icons/burger.png" },
+
+  { label: "Wrap", value: "Wrap", icon: Drumstick },
+  { label: "Pasta", value: "Pasta", icon: CookingPot },
+
+  { label: "Thai", value: "Thai", icon: Leaf },
+  { label: "Starter", value: "Starter", icon: Flame },
+
+  { label: "Noodles", value: "Noodles", icon: CookingPot },
+  { label: "Rice", value: "Rice", icon: CookingPot },
+  { label: "Soup", value: "Soup", icon: SoupIcon },
+
+  { label: "Pizza", value: "Pizza", icon: Pizza },
+  { label: "Momos", value: "Momos", icon: CookingPot },
+
+  { label: "Frankie", value: "Frankie", icon: Drumstick },
 ];
 
 // ✅ AUTO CUISINE MAP (NO MANUAL WORK)
@@ -161,12 +186,13 @@ export const cuisineMap: Record<string, string> = {
 
 // ✅ CUISINE LIST
 export const cuisines = [
-  "All",
-  "Indian",
-  "Chinese",
-  "Continental",
-  "Fast Food",
-  "Thai",
+ { label: "All", value: "All", icon: "/icons/globe.png" },
+
+  { label: "Indian", value: "Indian", icon: "/icons/indian.png" },
+  { label: "Chinese", value: "Chinese", icon: "/icons/maggi.png" },
+  { label: "Continental", value: "Continental", icon: "/icons/continental.png" },
+  { label: "Fast Food", value: "Fast Food", icon: "/icons/fast-food.png" },
+  { label: "Thai", value: "Thai", icon: "/icons/thai-food.png" },
 ];
 
 export const menuItems: MenuItem[] = [
@@ -179,7 +205,7 @@ export const menuItems: MenuItem[] = [
 
 /* ================= TEA & COFFEE ================= */
 { id:"tea-1", name:"Tea", description:"Hot tea", price:20, image:Tea, category:"Tea & Coffee", isVeg:true },
-{ id:"tea-2", name:"Coffee", description:"Hot coffee", price:30, image:"https://images.unsplash.com/photo-1509042239860-f550ce710b93", category:"Tea & Coffee", isVeg:true },
+{ id:"tea-2", name:"Coffee", description:"Hot coffee", price:30, image:Coffee1, category:"Tea & Coffee", isVeg:true },
 { id:"tea-3", name:"Black Coffee", description:"Strong black coffee", price:40, image:BlackCoffee, category:"Tea & Coffee", isVeg:true },
 { id:"tea-4", name:"Lemon Tea", description:"Light lemon tea", price:40, image:LemonTea, category:"Tea & Coffee", isVeg:true },
 
