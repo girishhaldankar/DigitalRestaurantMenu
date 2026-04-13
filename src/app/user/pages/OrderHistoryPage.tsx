@@ -1,54 +1,112 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, History, RotateCcw, MapPinned } from "lucide-react";
+import {
+  ArrowLeft,
+  History,
+  RotateCcw,
+  MapPinned,
+  Clock,
+} from "lucide-react";
 import { db } from "../../../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 
 export default function OrderHistoryPage() {
-  console.log("OrderHistoryPage Loaded");
-
   const [orders, setOrders] = useState<any[]>([]);
   const navigate = useNavigate();
 
+  /* =========================
+     REALTIME FETCH
+  ========================= */
   useEffect(() => {
-    const fetchOrders = async () => {
-      const user = JSON.parse(localStorage.getItem("currentUser") || "null");
-      if (!user) return;
+    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
+    if (!user) return;
 
-      const q = query(
-        collection(db, "orders"),
-        where("customerId", "==", String(user.mobile))
-      );
+    const q = query(
+      collection(db, "orders"),
+      where("customerId", "==", String(user.mobile))
+    );
 
-      const snapshot = await getDocs(q);
-
+    const unsub = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
 
-      // simple sort
       data.sort(
         (a: any, b: any) =>
           (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)
       );
 
       setOrders(data);
-    };
+    });
 
-    fetchOrders();
+    return () => unsub();
   }, []);
 
+  /* =========================
+     NORMALIZE STATUS
+  ========================= */
+  const normalizeStatus = (status: string) => {
+    const s = (status || "").toLowerCase();
+    if (s === "paid") return "new";
+    if (s === "failed") return "cancelled";
+    return s;
+  };
+
+  /* =========================
+     PROGRESS CALCULATION ⭐
+  ========================= */
+  const getProgress = (status: string) => {
+    const s = normalizeStatus(status);
+
+    switch (s) {
+      case "new":
+        return 20;
+      case "preparing":
+        return 50;
+      case "ready":
+        return 80;
+      case "delivered":
+        return 100;
+      case "cancelled":
+        return 0;
+      default:
+        return 10;
+    }
+  };
+
+  const getProgressColor = (status: string) => {
+    const s = normalizeStatus(status);
+
+    if (s === "delivered") return "bg-green-500";
+    if (s === "cancelled") return "bg-red-500";
+    if (s === "ready") return "bg-teal-500";
+    if (s === "preparing") return "bg-orange-500";
+    return "bg-blue-500";
+  };
+
+  /* =========================
+     HELPERS
+  ========================= */
   const handleReorder = (items: any[]) => {
     localStorage.setItem("reorderCart", JSON.stringify(items));
     navigate("/");
   };
 
-  /* ✅ ACTIVE ORDER LOGIC */
   const isActiveOrder = (status: string) => {
-    const s = (status || "").toLowerCase();
+    const s = normalizeStatus(status);
     return s !== "delivered" && s !== "cancelled";
   };
+
+  /* =========================
+     ACTIVE ORDER
+  ========================= */
+  const activeOrder = orders.find((o) => isActiveOrder(o.status));
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">
@@ -70,27 +128,77 @@ export default function OrderHistoryPage() {
           <div className="flex items-center gap-3 mb-4">
             <button
               onClick={() => navigate("/")}
-              className="p-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/20 transition active:scale-95"
+              className="p-2 rounded-full bg-white/10 border border-white/20 hover:bg-white/20"
             >
               <ArrowLeft className="w-5 h-5 text-white" />
             </button>
 
             <div className="flex items-center gap-2">
               <History className="w-5 h-5 text-teal-300" />
-              <h1 className="text-xl sm:text-2xl font-bold text-white">
+              <h1 className="text-xl font-bold text-white">
                 Order History
               </h1>
             </div>
           </div>
 
-          {/* EMPTY */}
-          {orders.length === 0 && (
-            <p className="text-gray-400 text-center mt-10">
-              🍽️ No orders yet. Try something delicious!
-            </p>
+          {/* ACTIVE ORDER */}
+          {activeOrder && (
+            <div className="mb-5 p-4 rounded-2xl bg-white/10 border border-white/20">
+
+              {/* HEADER */}
+              <div className="flex justify-between">
+                <span className="text-sm text-teal-300 font-semibold">
+                  Live Order
+                </span>
+
+                <span className="text-xs px-3 py-1 rounded-full bg-white/10 text-white">
+                  {normalizeStatus(activeOrder.status)}
+                </span>
+              </div>
+
+              {/* PROGRESS BAR ⭐ */}
+              <div className="mt-3">
+                <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+                  <div
+                    className={`h-2 ${getProgressColor(activeOrder.status)} transition-all duration-500`}
+                    style={{
+                      width: `${getProgress(activeOrder.status)}%`,
+                    }}
+                  />
+                </div>
+
+                <p className="text-xs text-gray-300 mt-1">
+                  Progress: {getProgress(activeOrder.status)}%
+                </p>
+              </div>
+
+              {/* ITEMS */}
+              <div className="mt-3 space-y-1 border-t border-white/10 pt-2">
+                {activeOrder.items?.map((i: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className="flex justify-between text-xs text-gray-200"
+                  >
+                    <span>
+                      {i.item?.name} {i.size ? `(${i.size})` : ""}
+                    </span>
+                    <span>x{i.quantity}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* TRACK */}
+              <button
+                onClick={() => navigate(`/track/${activeOrder.id}`)}
+                className="mt-3 w-full bg-teal-600 hover:bg-teal-500 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-2"
+              >
+                <MapPinned className="w-4 h-4" />
+                Track Order
+              </button>
+            </div>
           )}
 
-          {/* ORDERS */}
+          {/* ORDER LIST */}
           <div className="space-y-4">
             {orders.map((order) => {
               const active = isActiveOrder(order.status);
@@ -98,9 +206,10 @@ export default function OrderHistoryPage() {
               return (
                 <div
                   key={order.id}
-                  className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-lg"
+                  className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-4"
                 >
-                  {/* DATE + TOTAL */}
+
+                  {/* TOP */}
                   <div className="flex justify-between items-center">
                     <p className="text-xs text-gray-300">
                       {order.createdAt?.toDate?.().toLocaleString()}
@@ -111,11 +220,26 @@ export default function OrderHistoryPage() {
                     </p>
                   </div>
 
+                  {/* PROGRESS BAR */}
+                  <div className="mt-2">
+                    <div className="w-full bg-gray-700 rounded-full h-1.5">
+                      <div
+                        className={`h-1.5 ${getProgressColor(order.status)} transition-all`}
+                        style={{
+                          width: `${getProgress(order.status)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+
                   {/* ITEMS */}
-                  <div className="mt-3 space-y-1">
-                    {order.items?.map((i: any, index: number) => (
-                      <div key={index} className="text-xs text-gray-200">
-                        {i.item?.name} ({i.size}) × {i.quantity}
+                  <div className="mt-2 space-y-1">
+                    {order.items?.map((i: any, idx: number) => (
+                      <div
+                        key={idx}
+                        className="text-xs text-gray-200"
+                      >
+                        {i.item?.name} × {i.quantity}
                       </div>
                     ))}
                   </div>
@@ -123,32 +247,21 @@ export default function OrderHistoryPage() {
                   {/* ACTIONS */}
                   <div className="flex justify-between items-center mt-4">
 
-                    {/* STATUS */}
-                    <span
-                      className={`text-[10px] px-2 py-1 rounded-full ${
-                        active
-                          ? "bg-teal-500/20 text-teal-300"
-                          : "bg-gray-500/20 text-gray-300"
-                      }`}
-                    >
-                      {order.status || "pending"}
+                    <span className="text-[10px] px-2 py-1 rounded-full bg-white/10 text-white">
+                      {normalizeStatus(order.status)}
                     </span>
 
-                    {/* BUTTONS */}
                     <div className="flex gap-2">
 
-                      {/* ✅ TRACK BUTTON (ONLY ACTIVE) */}
                       {active && (
                         <button
                           onClick={() => navigate(`/track/${order.id}`)}
-                          className="flex items-center gap-2 px-3 py-2 bg-blue-600/60 hover:bg-blue-600 rounded-lg text-xs font-semibold transition active:scale-95"
+                          className="px-3 py-2 bg-blue-600/80 hover:bg-blue-600 rounded-lg text-xs"
                         >
-                          <MapPinned className="w-4 h-4" />
                           Track
                         </button>
                       )}
 
-                      {/* REORDER */}
                       <button
                         onClick={() =>
                           handleReorder(
@@ -159,14 +272,14 @@ export default function OrderHistoryPage() {
                             }))
                           )
                         }
-                        className="flex items-center gap-2 px-3 py-2 bg-teal-600/60 hover:bg-teal-600 rounded-lg text-xs font-semibold transition active:scale-95"
+                        className="px-3 py-2 bg-teal-600/80 hover:bg-teal-600 rounded-lg text-xs"
                       >
-                        <RotateCcw className="w-4 h-4" />
                         Reorder
                       </button>
 
                     </div>
                   </div>
+
                 </div>
               );
             })}
