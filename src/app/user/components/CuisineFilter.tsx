@@ -8,8 +8,7 @@ import {
   Utensils,
   Soup,
   Pizza,
-  Sandwich,
-  Flame
+  Flame,
 } from "lucide-react";
 
 interface CuisineFilterProps {
@@ -28,13 +27,37 @@ export function CuisineFilter({ cuisine, onChange }: CuisineFilterProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
-  /* 🔥 FETCH */
+  /* =========================
+     CUSTOM ORDER PRIORITY
+     (backend still controls data)
+  ========================= */
+  const orderPriority: Record<string, number> = {
+    indian: 1,
+    chinese: 2,
+    continental: 3,
+    thai: 4,
+  };
+
+  /* =========================
+     FETCH + SORT
+  ========================= */
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "cuisines"), (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
+      let data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       })) as CuisineType[];
+
+      // 🔥 SORT BY CUSTOM ORDER
+      data.sort((a, b) => {
+        const aKey = (a.value || "").toLowerCase();
+        const bKey = (b.value || "").toLowerCase();
+
+        const aOrder = orderPriority[aKey] ?? 999; // unknown goes last
+        const bOrder = orderPriority[bKey] ?? 999;
+
+        return aOrder - bOrder;
+      });
 
       setCuisines(data);
     });
@@ -42,7 +65,9 @@ export function CuisineFilter({ cuisine, onChange }: CuisineFilterProps) {
     return () => unsub();
   }, []);
 
-  /* 🎯 SCROLL TO CENTER */
+  /* =========================
+     SCROLL CENTER
+  ========================= */
   const scrollToCenter = (key: string) => {
     const el = itemRefs.current[key];
     const container = containerRef.current;
@@ -51,7 +76,6 @@ export function CuisineFilter({ cuisine, onChange }: CuisineFilterProps) {
 
     const elLeft = el.offsetLeft;
     const elWidth = el.offsetWidth;
-
     const containerWidth = container.offsetWidth;
 
     container.scrollTo({
@@ -60,7 +84,9 @@ export function CuisineFilter({ cuisine, onChange }: CuisineFilterProps) {
     });
   };
 
-  /* 🔁 ICON MAP */
+  /* =========================
+     ICON MAP
+  ========================= */
   const getIcon = (value: string) => {
     switch (value) {
       case "Indian":
@@ -71,8 +97,6 @@ export function CuisineFilter({ cuisine, onChange }: CuisineFilterProps) {
         return Pizza;
       case "Thai":
         return Flame;
-      case "Fast Food":
-        return Sandwich;
       default:
         return Globe;
     }
@@ -84,7 +108,6 @@ export function CuisineFilter({ cuisine, onChange }: CuisineFilterProps) {
         ref={containerRef}
         className="flex gap-2 bg-white/5 p-1.5 rounded-lg border border-white/10 overflow-x-auto scrollbar-hide"
       >
-
         {/* ALL */}
         <button
           ref={(el) => (itemRefs.current["All"] = el)}
@@ -107,7 +130,7 @@ export function CuisineFilter({ cuisine, onChange }: CuisineFilterProps) {
           All
         </button>
 
-        {/* DYNAMIC */}
+        {/* DYNAMIC CUISINES (SORTED) */}
         {cuisines.map((opt) => {
           const Icon = getIcon(opt.value);
           const active = cuisine === opt.value;
