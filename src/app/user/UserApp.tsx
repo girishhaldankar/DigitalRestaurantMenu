@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { Header } from "./components/Header";
 import { SearchBar } from "./components/SearchBar";
@@ -19,6 +20,7 @@ import Terms from "./pages/Terms";
 import RefundPolicy from "./pages/RefundPolicy";
 
 import SplashScreen from "../../components/SplashScreen";
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 
 /* =========================
    TYPES
@@ -46,6 +48,7 @@ export default function UserApp() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu-preview" element={<MenuPreviewPage />} />
+        <Route path="/orders" element={<OrderHistoryPage />} />
 
         {/* Policy Pages */}
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -171,6 +174,54 @@ function Home() {
 
   const clearCart = () => setCart([]);
 
+  const reorder = (items: any[]) => {
+  setCart((prev) => {
+    let updated = [...prev];
+
+    items.forEach((item) => {
+      const existing = updated.find(
+        (c) => c.id === item.id && c.size === item.size
+      );
+
+      if (existing) {
+        updated = updated.map((c) =>
+          c.id === item.id && c.size === item.size
+            ? { ...c, quantity: c.quantity + item.quantity }
+            : c
+        );
+      } else {
+        updated.push({
+          id: item.id,
+          size: item.size,
+          quantity: item.quantity,
+        });
+      }
+    });
+
+    return updated;
+  });
+
+  // 👉 OPEN CART AFTER REORDER (VERY IMPORTANT UX)
+  setIsCartOpen(true);
+};
+
+
+
+const location = useLocation();
+
+useEffect(() => {
+  const stored = localStorage.getItem("reorderCart");
+
+  if (stored) {
+    const items = JSON.parse(stored);
+
+    // ⛔ delay ensures Home fully mounted
+    setTimeout(() => {
+      reorder(items);
+      localStorage.removeItem("reorderCart");
+    }, 100); // small delay = guaranteed fix
+  }
+}, []);
   /* =========================
      UI
      ========================= */
@@ -243,6 +294,8 @@ function Home() {
         total={cartTotal}
         onClick={() => setIsCartOpen(true)}
       />
+
+     
 
       <CheckoutSheet
         isOpen={isCartOpen}

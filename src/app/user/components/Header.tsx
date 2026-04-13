@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { Download, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, History  } from "lucide-react";
 
 interface HeaderProps {
   onExploreClick?: () => void;
@@ -83,6 +83,18 @@ export function Header({ onExploreClick }: HeaderProps) {
           {user.name}
         </span>
       </div>
+
+       {/* DIVIDER */}
+  <div className="w-[1px] h-4 bg-white/20" />
+
+  {/* ORDER HISTORY */}
+  <button
+    onClick={() => navigate("/orders")}
+    className="text-white/80 hover:text-teal-300 transition active:scale-95"
+    title="Orders"
+  >
+    <History className="w-4 h-4" />
+  </button>
 
       {/* DIVIDER */}
       <div className="w-[1px] h-4 bg-white/20" />

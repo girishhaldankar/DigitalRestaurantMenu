@@ -35,7 +35,6 @@ export function CheckoutSheet({
   onClearCart,
 }: CheckoutSheetProps) {
 
-  // 👤 USER FROM LOCAL STORAGE
   const [user, setUser] = useState<any>(null);
 
   const [name, setName] = useState("");
@@ -55,7 +54,6 @@ export function CheckoutSheet({
     }
   }, []);
 
-  // 👇 AUTO FILL WHEN USER EXISTS
   useEffect(() => {
     if (user) {
       setName(user.name || "");
@@ -95,7 +93,7 @@ export function CheckoutSheet({
         paymentId: null,
         createdAt: serverTimestamp(),
         prepTime: 20,
-        customerId: user?.mobile || null, // 🔥 link user
+        customerId: user?.mobile || null,
       });
 
       const trackUrl = `/track/${orderRef.id}`;
@@ -115,13 +113,36 @@ export function CheckoutSheet({
             trackingUrl: trackUrl,
           });
 
+          // ✅ SAVE ORDER HISTORY (NEW)
+          const prevOrders = JSON.parse(
+            localStorage.getItem("orderHistory") || "[]"
+          );
+
+          const newOrder = {
+            id: orderRef.id,
+            items: cartItems.map(({ item, quantity, size }) => ({
+              id: item.id,
+              name: item.name,
+              image: item.image,
+              size,
+              quantity,
+            })),
+            total,
+            createdAt: new Date().toISOString(),
+          };
+
+          localStorage.setItem(
+            "orderHistory",
+            JSON.stringify([newOrder, ...prevOrders])
+          );
+
+          // EXISTING FLOW
           setTrackingUrl(trackUrl);
           setOrderSuccess(true);
 
           onClearCart();
           setLocation("");
 
-          // 👇 only clear if guest
           if (!user) {
             setName("");
             setPhone("");
