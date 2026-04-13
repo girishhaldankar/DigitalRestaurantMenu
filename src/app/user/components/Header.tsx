@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { Download, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { User, LogOut } from "lucide-react";
 
 interface HeaderProps {
   onExploreClick?: () => void;
@@ -45,28 +46,60 @@ export function Header({ onExploreClick }: HeaderProps) {
 
         <div className="relative mb-8">
           <div className="absolute top-0 right-0 z-50 mt-2 mr-0 sm:mr-2">
-            {!user ? (
-              <button
-                onClick={() => navigate("/customer-login")}
-                className="text-xs sm:text-sm text-white bg-teal-600/60 px-3 py-1 sm:px-6 sm:py-2 rounded"
-              >
-                Login
-              </button>
-            ) : (
-              <div className="flex items-center gap-2">
-                <span className="text-xs sm:text-sm text-white bg-white/10 px-3 py-1 sm:px-4 sm:py-2 rounded">
-                  👤 {user.name}
-                </span>
 
-                <button
-                  onClick={handleLogout}
-                  className="text-xs sm:text-sm text-white bg-red-500/60 px-3 py-1 sm:px-6 sm:py-2 rounded"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
+  {!user ? (
+    <button
+      onClick={() => navigate("/customer-login")}
+      className="
+        text-xs sm:text-sm text-white
+        bg-white/10 backdrop-blur-xl
+        border border-white/20
+        px-4 py-2 sm:px-6 sm:py-2
+        rounded-full
+        hover:bg-white/15 hover:scale-[1.03]
+        active:scale-95
+        transition-all duration-300
+      "
+    >
+      Login
+    </button>
+  ) : (
+    <div
+      className="
+        flex items-center gap-2
+        px-3 py-2 sm:px-4 sm:py-2
+        rounded-full
+        bg-white/10 backdrop-blur-xl
+        border border-white/20
+        shadow-[0_8px_30px_rgb(0,0,0,0.25)]
+      "
+    >
+
+      {/* USER ICON + NAME */}
+      <div className="flex items-center gap-1 text-white">
+        <User className="w-4 h-4 text-teal-300" />
+
+        <span className="text-xs sm:text-sm max-w-[80px] sm:max-w-none truncate">
+          {user.name}
+        </span>
+      </div>
+
+      {/* DIVIDER */}
+      <div className="w-[1px] h-4 bg-white/20" />
+
+      {/* LOGOUT ICON */}
+      <button
+        onClick={handleLogout}
+        className="text-white/80 hover:text-red-400 transition active:scale-95"
+        title="Logout"
+      >
+        <LogOut className="w-4 h-4" />
+      </button>
+
+    </div>
+  )}
+
+</div>
 
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -79,32 +112,34 @@ export function Header({ onExploreClick }: HeaderProps) {
               className="w-14 h-14 sm:w-20 sm:h-20 object-contain drop-shadow-xl"
             />
 
-            <div className="flex flex-col items-start relative leading-none">
-              <h1
-                className="text-4xl sm:text-5xl font-extrabold tracking-[0.16em] drop-shadow-md"
-                style={{
-                  background: "linear-gradient(90deg, #4fd1c5, #2c7a7b)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                CIBO
-              </h1>
+            <div className="flex flex-col items-center relative leading-none">
 
-              <h2
-                className="text-4xl sm:text-5xl text-black -mt-5 ml-2 z-50 tracking-tighter"
-                style={{
-                  fontFamily: "'Allura', cursive",
-                  textShadow: "0 0 8px rgba(255,255,255,0.55), 0 2px 10px rgba(0,0,0,0.45)",
-                }}
-              >
-                Kitchen
-              </h2>
+  <h1
+    className="text-4xl sm:text-5xl font-extrabold tracking-[0.16em] drop-shadow-md"
+    style={{
+      background: "linear-gradient(90deg, #4fd1c5, #2c7a7b)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent",
+    }}
+  >
+    CIBO
+  </h1>
 
-              <p className="text-[8px] sm:text-[10px] text-gray-100 -mt-1 sm:mt-1 px-2 py-1 bg-teal-700/40 backdrop-blur-md rounded-full uppercase shadow-sm tracking-[0.18em]">
-                Yummy Food
-              </p>
-            </div>
+  <h2
+    className="text-4xl sm:text-5xl text-black -mt-5 z-50 tracking-tighter"
+    style={{
+      fontFamily: "'Allura', cursive",
+      textShadow: "0 0 8px rgba(255,255,255,0.55), 0 2px 10px rgba(0,0,0,0.45)",
+    }}
+  >
+    Kitchen
+  </h2>
+
+  <p className="text-[8px] sm:text-[10px] text-gray-100 -mt-1 sm:mt-1 px-2 py-1 bg-teal-700/40 backdrop-blur-md rounded-full uppercase shadow-sm tracking-[0.18em] w-fit mx-auto">
+    Yummy Food
+  </p>
+
+</div>
           </motion.div>
         </div>
 
